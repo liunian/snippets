@@ -1,0 +1,13 @@
+.popBox .dHead,.popBox .dHead .close,.popBox .dBody .pCon .icon,.dBody .pBtn a{background:url(icon.png) no-repeat scroll 0 0 transparent;}
+
+.popBox{ width:350px; border:5px solid #8c8c8c; background:#FFF;}
+.popBox .dHead{ height:30px; background-position:-400px -300px;}
+.popBox .dHead .mark{ font-size:14px; color:#FFF;}
+.popBox .dHead .close{ width:8px; height:7px; margin:12px 10px 0 0; display:inline; float:right; background-position:-700px -350px;}
+.popBox .dBody{padding-top:30px;}
+.popBox .dBody .pCon{ height:62px; padding-left:15px;}
+.popBox .dBody .pCon .icon{ width:24px; height:20px; margin-right:10px; float:left;background-position:-726px -260px;}
+.popBox .dBody .pCon .iDes{ float:left; line-height:24px; font-size:14px;}
+.dBody .pBtn{ height:32px; padding-top:6px; background:#f0f0f0;}
+.dBody .pBtn a{ width:90px; height:24px; margin-right:10px; float:right; text-align:center; line-height:24px; background-position:-400px -260px;}
+.dBody .pBtn a:hover{ text-decoration:none; color:#333;}
