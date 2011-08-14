@@ -15,7 +15,7 @@
  * @option {String} content : main content of popup box, html or text,
  *      default: 'This is a popup box'
  *
- * @option {Boolean} closeable : whether show the close button or not,
+ * @option {Boolean} closeButton : whether show the close button or not,
  *      default: true
  *
  * @option {Number} closeDelay : million seconds before auto close, if set this
@@ -37,7 +37,7 @@ var popBox = function(option){
     this.option = {
         title : null,
         content: 'This is a popup box',
-        closeable: true,
+        closeButton: true,
         closeDelay: 0,
         boxClass: 'popBox',
         okButton: false,
@@ -100,24 +100,29 @@ popBox.prototype = {
         var ele = document.createElement('div');
         ele.className = op.boxClass;
         var html = '';
-        if(op.title){
-            html += '<div class="dHead"><span class="mark">' + op.title + '</span>' +
-                '<a href="javascript:;" class="close"></a></div>';
+        
+        if(op.title || op.closeButton) {        
+	        html += '<div class="dHead">';
+	        
+	        if(op.title){
+	            html += '<span class="title">' + op.title + '</span>';
+	        }
+	        
+	        html += '<a href="javascript:;" class="close">x</a></div>';
         }
-        html += '<div class="dBody"><p class="pCon"><i class="icon"></i>' +
-            '<i class="iDes">' + op.content + '</i></p>';
+        
+        html += '<div class="dBody">' + op.content + '</div>';
         if(op.okButton || op.cancelButton){
-            html += '<div class="pBtn">';
+            html += '<div class="dBottom clearfix">';
             if(op.cancelButton){
-                html += '<a href="javascript:;" class="iCancel">取消</a>';
+                html += '<a href="javascript:;" class="btn iCancel">取消</a>';
             }
             if(op.okButton){
-                html += '<a href="javascript:;" class="iOk">确定</a>';
+                html += '<a href="javascript:;" class="btn iOk">确定</a>';
             }
             html += '</div>';
         }
         
-        html += '</div>';
         ele.innerHTML = html;
         
         /* store the element*/
@@ -173,9 +178,12 @@ popBox.prototype = {
         var scrollTop = document.documentElement.scrollTop ? document.documentElement.scrollTop : document.body.scrollTop;
         var top = scrollTop + (winHeight - op.ele.offsetHeight) / 2;
         var left = (winWidth - op.ele.offsetWidth) / 2;
+        //console.log(winWidth, op.ele.offsetWidth, (winWidth- op.ele.offsetWidth)/2);
+        //console.log(winHeight, op.ele.offsetHeight, (winHeight- op.ele.offsetHeight)/2);
         op.ele.style.position = 'absolute';
-        op.ele.style.zIndex = 150;
+        op.ele.style.zIndex = 200;
         op.ele.style.top = top + 'px';
         op.ele.style.left = left + 'px';
+        //console.log((winWidth- op.ele.offsetWidth)/2);
     }
 };

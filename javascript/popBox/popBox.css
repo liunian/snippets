@@ -1,13 +1,56 @@
-.popBox .dHead,.popBox .dHead .close,.popBox .dBody .pCon .icon,.dBody .pBtn a{background:url(icon.png) no-repeat scroll 0 0 transparent;}
-
-.popBox{ width:350px; border:5px solid #8c8c8c; background:#FFF;}
-.popBox .dHead{ height:30px; background-position:-400px -300px;}
-.popBox .dHead .mark{ font-size:14px; color:#FFF;}
-.popBox .dHead .close{ width:8px; height:7px; margin:12px 10px 0 0; display:inline; float:right; background-position:-700px -350px;}
-.popBox .dBody{padding-top:30px;}
-.popBox .dBody .pCon{ height:62px; padding-left:15px;}
-.popBox .dBody .pCon .icon{ width:24px; height:20px; margin-right:10px; float:left;background-position:-726px -260px;}
-.popBox .dBody .pCon .iDes{ float:left; line-height:24px; font-size:14px;}
-.dBody .pBtn{ height:32px; padding-top:6px; background:#f0f0f0;}
-.dBody .pBtn a{ width:90px; height:24px; margin-right:10px; float:right; text-align:center; line-height:24px; background-position:-400px -260px;}
-.dBody .pBtn a:hover{ text-decoration:none; color:#333;}
+.popBox{
+	position:relative;
+	border:5px solid #ccc;
+	background: white;
+	line-height:1.2;
+}
+.popBox .dHead{
+	position:relative;
+	background:#232323;
+	color:white;
+	height:30px;
+}
+.popBox .dHead .title{
+	font-weight:bold;
+	font-size:14px;
+	margin-right:30px;
+	margin-left:10px;
+	line-height:30px;
+}
+.popBox .dHead .close{
+	color:white;
+	position:absolute;
+	padding:3px;
+	right:7px;
+	top:3px;
+	text-decoration:none;
+	font-size:16px;
+}
+.popBox .dBody{
+	padding:10px;
+	min-height:20px;
+}
+.popBox .dBottom{
+	background:#F0F0F0;
+	height:32px;
+	padding-top:7px;
+	padding-left:10px;
+}
+.popBox .dBottom .btn{
+	float:right;
+	height:24px;
+	line-height:24px;
+	margin-right:10px;
+	width:90px;
+	color:#000;
+	background:white;
+	-moz-border-radius:3px;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
+	text-decoration:none;
+	text-align:center;
+	opacity:0.8;
+}
+.popBox .dBottom .btn:hover{
+	opacity:1;	
+}

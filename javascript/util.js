@@ -9,7 +9,7 @@
  */
 function mergeObj(oldObj, newObj) {
     for (var item in newObj) {
-        oldObj[item] = newObject[item];
+        oldObj[item] = newObj[item];
     }
     return this;
 }
