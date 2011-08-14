@@ -15,6 +15,8 @@
  * @option {String} content : main content of popup box, html or text,
  *      default: 'This is a popup box'
  *
+ * @option {String} width : the popup box's width, default : 350px
+ *
  * @option {Boolean} closeButton : whether show the close button or not,
  *      default: true
  *
@@ -37,6 +39,7 @@ var popBox = function(option){
     this.option = {
         title : null,
         content: 'This is a popup box',
+		width: '350px',
         closeButton: true,
         closeDelay: 0,
         boxClass: 'popBox',
@@ -176,6 +179,9 @@ popBox.prototype = {
         document.body.appendChild(this.option.ele);
         
         var scrollTop = document.documentElement.scrollTop ? document.documentElement.scrollTop : document.body.scrollTop;
+		
+		op.ele.style.width = op.width;
+		
         var top = scrollTop + (winHeight - op.ele.offsetHeight) / 2;
         var left = (winWidth - op.ele.offsetWidth) / 2;
         //console.log(winWidth, op.ele.offsetWidth, (winWidth- op.ele.offsetWidth)/2);

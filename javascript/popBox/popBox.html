@@ -37,6 +37,7 @@
     addEventSimple(c2, 'click', function(){
       new popBox({
       	content: 'Auto close after 2 seconds,<br /> with no title or no button',
+		width: '250px',
       	closeButton: false,
       	closeDelay: 2000
       });
@@ -46,6 +47,7 @@
       new popBox({
       	title: 'With button callback',
       	content: 'call a function to do something after clicking a button',
+		width: '300px',
       	okButton: true,
       	okcallback: function(){
       		msg.innerHTML = msg.innerHTML + 'click OK button<br />';
