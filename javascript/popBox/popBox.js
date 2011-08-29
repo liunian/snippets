@@ -49,7 +49,7 @@ var popBox = function(option){
         cancelCallback: function(){}
     };
     if(option){
-        mergeObj(this.option, option);
+        updateObj(this.option, option);
     }
     this.init();
 };
