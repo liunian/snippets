@@ -5,9 +5,9 @@
 
 
 /**
- *  A simple function to merge old object with new object
+ *  A simple function to update old object with new object
  */
-function mergeObj(oldObj, newObj) {
+function updateObj(oldObj, newObj) {
     for (var item in newObj) {
         oldObj[item] = newObj[item];
     }
