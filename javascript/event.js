@@ -27,10 +27,12 @@ function removeEventSimple(obj,evt,fn) {
  *  W3C standards, use e.stopPropagation().
  */
 function stopBubble(e) {
-	if (e.stopPropagation )
+	if (e.stopPropagation ) {
 		e.stopPropagation();
-	else
+	}
+	else {
 		e.cancelBubble = true;
+	}
 }
 
 /**
