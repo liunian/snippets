@@ -39,9 +39,10 @@ function stopBubble(e) {
  *  Prevent event trigger the default event handler
  */
 function preventDefault(e) {
-	if (e.preventDefault )
+	if (e.preventDefault ) {
 		e.preventDefault();
-	else
+	}
+	else {
 		e.returnValue = false;
-	return false;
+	}
 }
