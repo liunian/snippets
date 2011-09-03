@@ -1,7 +1,7 @@
 /**
  * create overlay
  * @author dengjij@gmail.com
- * @require util.js
+ * @requires util.js
  *
  */
  
