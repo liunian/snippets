@@ -28,3 +28,16 @@ function outerHTML(node){
             return h;
         })(node);
 }
+
+function isObject (o) {
+    return Object.prototype.toString.call(o) === '[object Object]';
+}
+
+function isArray (o){
+    return Object.prototype.toString.call(o) === '[object Array]';
+};
+
+function isBool (o){
+    //return Object.prototype.toString.call(o) === 'object Boolean]';
+    return o === !!o;
+};
