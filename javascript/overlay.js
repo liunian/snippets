@@ -48,6 +48,7 @@ overlay.prototype = {
     close: function(){
         document.body.removeChild(this.content);
         this.content = null;
+		delete this.content;
         delete this.option;
     }
 };
