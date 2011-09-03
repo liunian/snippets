@@ -11,7 +11,7 @@ function updateObj(oldObj, newObj) {
     for (var item in newObj) {
         oldObj[item] = newObj[item];
     }
-    return this;
+    return oldObj;
 }
 
 /*
