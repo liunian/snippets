@@ -1,0 +1,22 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>className test</title>
+</head>
+<body>
+	<div id="t" class="a b c"></div>
+	<script type="text/javascript" src="../util.js"></script>	
+	<script type="text/javascript" src="../className.js"></script>
+	<script type="text/javascript">
+		var t = document.getElementById('t');	
+		console.log(hasClass(t, 'a'));
+		addClass(t, 'test');
+		console.log(t.className);
+		addClass(t, 'moretest test');
+		console.log(t.className);
+		removeClass(t, 'test a');
+		console.log(t.className);
+	</script>
+</body>
+</html>
