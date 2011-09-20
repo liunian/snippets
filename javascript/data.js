@@ -31,12 +31,17 @@ var Data = function() {
 		return cache[id] && cache[id][key] || null;
 	};
 
+	var removeData = function(elem, ke) {
+		//todo
+	};
+
 	return {
 		//cache: cache,
 		//uuid: uuid,
 		//expando: expando,
 		setData: setData,
-		getData: getData
+		getData: getData,
+		removeData: removeData
 	}
 } ();
 
