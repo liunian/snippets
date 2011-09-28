@@ -6,7 +6,7 @@
 /**
  *  Simple add / remove event from PPK
  */
-function addEventSimple(obj, evt, fn) {
+function bind(obj, evt, fn) {
 	if (obj.addEventListener) {
 		obj.addEventListener(evt, fn, false);
 	}
@@ -15,7 +15,7 @@ function addEventSimple(obj, evt, fn) {
 	}
 }
 
-function removeEventSimple(obj, evt, fn) {
+function unbind(obj, evt, fn) {
 	if (obj.removeEventListener) {
 		obj.removeEventListener(evt, fn, false);
 	}
@@ -47,4 +47,35 @@ function preventDefault(e) {
 	else {
 		window.event.returnValue = false;
 	}
+}
+
+
+// Some thing wrong after
+
+/**
+ * delegate event
+ *
+ * receive all the bubble event in interface element, use the event.target or event.srcElement
+ * to confirm if is the element needed, if true, run the function
+ */
+function delegate(interfaceEle, targetEle, evt, fn){
+	//bind(interfaceEle, evt, fuction(
+	evt = evt || window.event;
+	var target = evt.target || evt.srcElement;
+	if(target == targetEle){
+		fn && fn(evt);
+		preventDefault(evt);
+		stopBubble(evt);
+	}
+}
+
+
+/**
+ * implement the $.one in jquery in a simple way
+ *
+ */
+function one(obj, evt, fn){
+	obj['on' + evt] = function(evt){
+		
+	};
 }
