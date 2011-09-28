@@ -33,18 +33,29 @@ function isObject (o) {
     return Object.prototype.toString.call(o) === '[object Object]';
 }
 
+/**
+ * nodeType
+ * 1: element node
+ * 9: document node
+ */
+function isElement (o) {
+	if(o.nodeType && (o.nodeType==1 || o.nodeType==9)){
+		return true;
+	}
+}
+
 function isArray (o){
     return Object.prototype.toString.call(o) === '[object Array]';
-};
+}
 
 function isFunction (o) {
 	return Object.prototype.toString.call(o) == '[object Function]';
-};
+}
 
 function isBool (o){
     //return Object.prototype.toString.call(o) === 'object Boolean]';
     return o === !!o;
-};
+}
 
 /**
  * add an each to array
