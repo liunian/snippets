@@ -12,7 +12,7 @@
 var Data = function() {
 	var cache = {},
 		expando = 'data' + new Date().getTime(),	// a random string to make sure the attribute for data is unique
-		uuid = 1;	// an integer to identify each data in Data
+		uuid = 0;	// an integer to identify each data in Data
 
 	var setData = function(elem, key, value) {
 		var id = elem[expando];
@@ -31,8 +31,10 @@ var Data = function() {
 		return cache[id] && cache[id][key] || null;
 	};
 
-	var removeData = function(elem, ke) {
-		//todo
+	var removeData = function(elem, key) {
+		var id = elem[expando];
+		if (!id || !cache[id] || !cache[id][key]) return null;
+		return delete cache[id][key];
 	};
 
 	return {
