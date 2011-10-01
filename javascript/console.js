@@ -4,33 +4,57 @@
  * requires util.js
  */
 
-var console = function(console) {
-	if (typeof console !== 'undefined') {
-		return console;
-	}
+window.console = typeof console !== 'undefined' ? console : function() {
+//window.console = function() {
 
-	var panel; 
+	var panel,
+		panelLog,
+		panelInput;
 
 	/**
 	 * create the console panel as first run
 	 */
 	var _init = function() {
-		var panel = document.createElement('div');
-		panel.className = 'consoleLog';
-		panel.style.cssText = '; position: absolute; top: 0; right: 0; background:rgb(223,223,223); color:#333; width: 600px; height: 200px; overflow:auto';
+		panel = _createPanel();
+		panelLog = _createPanelLog();
+		panelInput = _createPanelInput();
+
+		panel.appendChild(panelLog);
+		panel.appendChild(panelInput);
+
 		document.body.appendChild(panel);
+	};
+
+	var _createPanel = function(){
+		var panel = document.createElement('div');
+		panel.className = 'console-panel';
 		return panel;
 	};
 
-	panel = _init();
+	var _createPanelLog = function(){
+		var panelLog = document.createElement('div');
+		panelLog.className = 'console-log';
+		
+		return panelLog;
+	};
+
+	var _createPanelInput = function(){
+		var input = document.createElement('div');
+		input.className = 'console-input';
+
+		return input;
+	};
+
+	 _init();
 
 	/**
 	 * append each log to the panel content
 	 */
 	var appendLog = function(msg) {
 		var perLog = document.createElement('div');
+		perLog.className = 'console-log-line';
 		perLog.innerHTML = msg;
-		panel.appendChild(perLog);
+		panelLog.appendChild(perLog);
 	};
 
 	var argType = function(arg){
@@ -66,7 +90,18 @@ var console = function(console) {
 	};
 
 	var renderArray = function(arr){
+		var res = '[',
+			l = arr.length,
+			l1 = l - 1,
+			i = 0,
+			aRes = [];
 
+		for(; i<l; i++){
+			aRes.push(render(arr[i]));
+		}
+
+		res += aRes.join(', ') + ']';
+		return res;
 	};
 
 	var renderNode = function(node){
@@ -74,7 +109,15 @@ var console = function(console) {
 	};
 
 	var renderObject = function(obj){
+		var res = '{',
+			aRes = []; 
 
+		for(var i in obj){
+			aRes.push(i + ': ' + render(obj[i]));
+		}
+
+		res += aRes.join(', ') + '}';
+		return res;
 	};
 
 	var renderBoolean = function(bool){
@@ -82,7 +125,7 @@ var console = function(console) {
 	};
 
 	var renderDefault = function(obj){
-		return obj;
+		return obj.toString();
 	}
 
 	var log = function() {
@@ -95,11 +138,11 @@ var console = function(console) {
 			renderedArgs.push(render(arguments[i]));
 		}
 
-		result = renderedArgs.join('\n');
+		result = renderedArgs.join('&nbsp;&nbsp;&nbsp;&nbsp;');
 		appendLog(result);
 	};
 
 	return {
 		log: log
 	}
-} (console);
+}();
