@@ -6,21 +6,21 @@
 /**
  *  Simple add / remove event from PPK
  */
-function bind(obj, evt, fn) {
+function bind(obj, type, fn) {
 	if (obj.addEventListener) {
-		obj.addEventListener(evt, fn, false);
+		obj.addEventListener(type, fn, false);
 	}
 	else if (obj.attachEvent) {
-		obj.attachEvent('on' + evt, fn);
+		obj.attachEvent('on' + type, fn);
 	}
 }
 
-function unbind(obj, evt, fn) {
+function unbind(obj, type, fn) {
 	if (obj.removeEventListener) {
-		obj.removeEventListener(evt, fn, false);
+		obj.removeEventListener(type, fn, false);
 	}
 	else if (obj.detachEvent) {
-		obj.detachEvent('on' + evt, fn);
+		obj.detachEvent('on' + type, fn);
 	}
 }
 
@@ -50,32 +50,25 @@ function preventDefault(e) {
 }
 
 
-// Some thing wrong after
 
 /**
  * delegate event
  *
  * receive all the bubble event in interface element, use the event.target or event.srcElement
  * to confirm if is the element needed, if true, run the function
- */
-function delegate(interfaceEle, targetEle, evt, fn){
-	//bind(interfaceEle, evt, fuction(
-	evt = evt || window.event;
-	var target = evt.target || evt.srcElement;
-	if(target == targetEle){
-		fn && fn(evt);
-		preventDefault(evt);
-		stopBubble(evt);
-	}
-}
-
-
-/**
- * implement the $.one in jquery in a simple way
  *
+ * In this way, it has no power; 
+ * if with a powerful selector, then can pass targetEle selector to it; in this way, it be powerful
+ * workflow: each time, use the selector to get the valid targetEle, if current element in the list, trigger
  */
-function one(obj, evt, fn){
-	obj['on' + evt] = function(evt){
-		
-	};
+function delegate(interfaceEle, targetEle, type, fn){
+	bind(interfaceEle, type, function(e){
+		e = e || window.event;
+		var target = e.target || e.srcElement;
+		if(target == targetEle){
+			fn && fn.call(target, e);
+			preventDefault(e);
+			stopBubble(e);
+		}
+	});
 }
