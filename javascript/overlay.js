@@ -4,7 +4,7 @@
  * @requires util.js
  *
  */
- 
+
 var overlay = function(option){
      this.option = {
          className : 'overlay',
@@ -22,7 +22,7 @@ overlay.prototype = {
         var op = this.option;
         var con = document.createElement('div');
         con.className = op.className;
-        
+
         con.style.display = op.show ? 'block' : 'none';
         con.style.background = op.background;
         con.style.opacity = op.opacity;
@@ -32,11 +32,11 @@ overlay.prototype = {
         con.style.top = 0;
         con.style.width = '100%';
         con.style.height = '100%';
-        
+
         document.body.appendChild(con);
-        
+
         this.content = con;
-        
+
         return this;
     },
     show: function(){

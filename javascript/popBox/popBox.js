@@ -1,7 +1,7 @@
 /**
  *  A simple snippets use to create popup box.
  *
- *  @requires [util.js, event.js]   
+ *  @requires [util.js, event.js]
  *  @author dengjij@gmail.com
  */
 
@@ -32,7 +32,7 @@
  * @option {function} okcallback : call when click the okButton, default: empty function
  *
  * @option {function} cancelCallback : call when click the cancelCallback, default: empty function
- *      
+ *
  */
 var popBox = function(option) {
 	this.option = {

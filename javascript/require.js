@@ -3,7 +3,7 @@
  *
  * Advanced usage may be required such as require an array urls, queue control
  *
- * These funcions can be found in LazyloadJs or LABjs 
+ * These funcions can be found in LazyloadJs or LABjs
  */
 function require(url, callback) {
 	var script = document.createElement('script');
