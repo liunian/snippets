@@ -34,7 +34,7 @@ window.console = typeof console !== 'undefined' ? console : function() {
 	var _createPanelLog = function(){
 		var panelLog = document.createElement('div');
 		panelLog.className = 'console-log';
-		
+
 		return panelLog;
 	};
 
@@ -69,7 +69,7 @@ window.console = typeof console !== 'undefined' ? console : function() {
 			objType = argType(obj);
 
 		switch(objType){
-			case "bool": 
+			case "bool":
 				result += renderBoolean(obj);
 				break;
 			case 'array':
@@ -78,7 +78,7 @@ window.console = typeof console !== 'undefined' ? console : function() {
 			case 'node':
 				result += renderNode(obj);
 				break;
-			case 'object': 
+			case 'object':
 				result += renderObject(obj);
 				break;
 			case 'other':
@@ -110,7 +110,7 @@ window.console = typeof console !== 'undefined' ? console : function() {
 
 	var renderObject = function(obj){
 		var res = '{',
-			aRes = []; 
+			aRes = [];
 
 		for(var i in obj){
 			aRes.push(i + ': ' + render(obj[i]));

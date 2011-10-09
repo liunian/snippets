@@ -10,16 +10,16 @@
 <body>
 	<div id="test">
 		<p id="p">some test here</p>
-	</div>	
+	</div>
 	<script src="../event.js" type="text/javascript"></script>
 	<script type="text/javascript">
 		var t = document.getElementById('test'),
-			p = document.getElementById('p');	
+			p = document.getElementById('p');
 
 		function show(e){
 			console.log(e.type + ' ' +  this.nodeName + ' ' +  new Date().getTime());
 		}
-		
+
 		delegate(document, p, 'click', function(e){
 			console.log('delegate event: ' + this.nodeName + ' ' + e.type);
 		});

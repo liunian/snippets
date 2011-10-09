@@ -57,7 +57,7 @@ function preventDefault(e) {
  * receive all the bubble event in interface element, use the event.target or event.srcElement
  * to confirm if is the element needed, if true, run the function
  *
- * In this way, it has no power; 
+ * In this way, it has no power;
  * if with a powerful selector, then can pass targetEle selector to it; in this way, it be powerful
  * workflow: each time, use the selector to get the valid targetEle, if current element in the list, trigger
  */

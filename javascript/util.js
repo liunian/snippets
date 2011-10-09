@@ -16,7 +16,7 @@ function updateObj(oldObj, newObj) {
 
 /*
  * from: http://stackoverflow.com/questions/1700870/how-do-i-do-outerhtml-in-firefox
- */ 
+ */
 function outerHTML(node){
     // if IE, Chrome take the internal method otherwise build one
     return node.outerHTML || (
@@ -62,15 +62,15 @@ function isBool (o){
  */
 Array.prototype.each = function(){
 	var fn, item, index, l = this.length;
-	
-	if(arguments.length != 1){ 
+
+	if(arguments.length != 1){
 		throw new Error('need a function to be the parameter');
 	}
 
 	if(!isFunction(arguments[0])){
 		throw new Error('The parameter must be a function');
 	}
-	
+
 	fn = arguments[0];
 
 	for(var i=0; i<l; i++){

@@ -6,7 +6,7 @@
  * exec the functoin right the way, it will be a clousre and an object instance;
  * with the return method, we can expose some method or attribute for outer use.
  *
- * The Data object does not store the dom to keep the relation of the data, 
+ * The Data object does not store the dom to keep the relation of the data,
  * but just use an id to reference, just like the foreign key in database.
  */
 var Data = function() {
