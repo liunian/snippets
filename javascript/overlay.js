@@ -5,11 +5,11 @@
  *
  */
 
-var overlay = function(option){
+var overlay = function(option) {
      this.option = {
-         className : 'overlay',
-         background : 'black',
-         opacity : 0.5,
+         className: 'overlay',
+         background: 'black',
+         opacity: 0.5,
          zIndex: 100,
          show: true
      };
@@ -18,7 +18,7 @@ var overlay = function(option){
 };
 
 overlay.prototype = {
-    init: function(){
+    init: function() {
         var op = this.option;
         var con = document.createElement('div');
         con.className = op.className;
@@ -39,16 +39,16 @@ overlay.prototype = {
 
         return this;
     },
-    show: function(){
+    show: function() {
         this.content.style.display = 'block';
     },
-    hide: function(){
+    hide: function() {
         this.content.style.display = 'none';
     },
-    close: function(){
+    close: function() {
         document.body.removeChild(this.content);
         this.content = null;
-		delete this.content;
+        delete this.content;
         delete this.option;
     }
 };

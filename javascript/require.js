@@ -6,25 +6,27 @@
  * These funcions can be found in LazyloadJs or LABjs
  */
 function require(url, callback) {
-	var script = document.createElement('script');
-	script.type = 'text/javascript';
+    var script = document.createElement('script');
+    script.type = 'text/javascript';
 
-	script.onload = script.onreadystatechange = function() {
-		if (script.readyState && script.readyState != 'loaded' && script.readyState != 'complete')) {
-			return false;
-		}
-		script.onload = script.onreadystatechange = null;
-		callback && callback();
-	};
+    script.onload = script.onreadystatechange = function() {
+        if (script.readyState && script.readyState != 'loaded' &&
+            script.readyState != 'complete') {
+            return false;
+        }
+        script.onload = script.onreadystatechange = null;
+        callback && callback();
+    };
 
-	script.src = url;
-	document.getElementsByTagName('head')[0].appendChild(script);
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
 }
 
 /*
  // from:https://gist.github.com/603980
  // HOWTO: load LABjs itself dynamically!
-// inline this code in your page to load LABjs itself dynamically, if you're so inclined.
+// inline this code in your page to load LABjs itself dynamically,
+// if you're so inclined.
 
 (function (global, oDOC, handler) {
     var head = oDOC.head || oDOC.getElementsByTagName("head");
@@ -40,12 +42,17 @@ function require(url, callback) {
                 setTimeout(arguments.callee, 25);
                 return;
             }
-            head = head[0]; // reassign from live node list ref to pure node ref -- avoids nasty IE bug where changes to DOM invalidate live node lists
+            // reassign from live node list ref to pure node ref
+            // -- avoids nasty IE bug where changes to DOM invalidate
+            // live node lists
+            head = head[0];
         }
         var scriptElem = oDOC.createElement("script"),
             scriptdone = false;
         scriptElem.onload = scriptElem.onreadystatechange = function () {
-            if ((scriptElem.readyState && scriptElem.readyState !== "complete" && scriptElem.readyState !== "loaded") || scriptdone) {
+            if ((scriptElem.readyState &&
+                scriptElem.readyState !== "complete" &&
+                scriptElem.readyState !== "loaded") || scriptdone) {
                 return false;
             }
             scriptElem.onload = scriptElem.onreadystatechange = null;
