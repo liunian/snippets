@@ -18,7 +18,7 @@ function mergeSort (items) {
 	var middle = Math.floor(items.length / 2),
 		left = item.slice(0, middle),
 		right = item.slice(middle);
-	return merge(mergeSort(left), mergeSort(right));	
+	return merge(mergeSort(left), mergeSort(right));
 }
 
 
