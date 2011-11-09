@@ -1,5 +1,5 @@
 function hasClass(element, className) {
-    return element.className.indexOf(className) === -1 ? false : true;
+    return element.className.indexOf(className) !== -1;
 }
 
 function addClass(element, className) {
