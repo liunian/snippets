@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Console</title>
+	<meta charset="utf-8" />
+	<link rel="stylesheet" href="../../css/console.css" type="text/css" media="screen" />		
+	</style>
+</head>
+<body>
+	<div id="t">test</div>
+	<script src="../util.js" type="text/javascript"></script>
+	<script src="../console.js" type="text/javascript"></script>
+	<script type="text/javascript">
+		console.log('abc');
+
+		var b = true;
+		console.log(b);
+
+		var a = [1, 2, 3];
+		console.log(a);
+
+		var o = {
+			'a': 1,
+			'b': 2,
+			'c': 3
+		};
+		console.log(o);
+
+		var n = document.getElementById('t');
+		console.log(n);
+
+		console.log('a', 'b', 'c');
+		console.log(a, b, o, n);
+	</script>
+</body>
+</html>
