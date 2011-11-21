@@ -7,7 +7,7 @@
  * @requires [dj.js]
  */
 
-DJ.log = function() {
+DJ.export('log', function() {
     // an array to store msg
     var _log = [];
 
@@ -104,4 +104,4 @@ DJ.log = function() {
         empty: empty,
         print: print
     };
-}();
+}());
