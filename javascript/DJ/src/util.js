@@ -3,78 +3,98 @@
  *    @author dengjij@gmail.com
  */
 
+DJ.export({
 
-/**
- *  A simple function to update old object with new object
- */
-function updateObj(oldObj, newObj) {
-    for (var item in newObj) {
-        oldObj[item] = newObj[item];
+    /**
+     *  A simple function to extend target with source
+     *  @param {Object} target the object to extend.
+     *  @param {Object} source the object to help extend target.
+     *  @param {Boolean} override true to override, default true.
+     */
+    extend: function(target, source, override) {
+        if (override == undefined) override = true;
+        for (var item in source) {
+            if (override || !(item in target)) {
+                target[item] = source[item];
+            }
+        }
+        return target;
+    },
+
+    /**
+     * get an element's outerHTML
+     * from:
+     * http://stackoverflow.com/questions/1700870/how-do-i-do-outerhtml-in-firefox
+     *
+     * @param {Element} node the element to get outerHTML from.
+     */
+    outerHTML: function(node) {
+        // if IE, Chrome take the internal method otherwise build one
+        return node.outerHTML || (
+            function(n) {
+                var div = document.createElement('div'), h;
+                div.appendChild(n.cloneNode(true));
+                h = div.innerHTML;
+                div = null;
+                return h;
+            })(node);
+    },
+
+    isObject: function(o) {
+        return Object.prototype.toString.call(o) === '[object Object]';
+    },
+
+    /**
+     * nodeType
+     * 1: element node
+     * 9: document node
+     */
+    isElement: function(o) {
+        if (o.nodeType && (o.nodeType == 1 || o.nodeType == 9)) {
+            return true;
+        }
+    },
+
+    isArray: function(o) {
+        return Object.prototype.toString.call(o) === '[object Array]';
+    },
+
+    isFunction: function(o) {
+        return Object.prototype.toString.call(o) == '[object Function]';
+    },
+
+    isBool: function(o) {
+        //return Object.prototype.toString.call(o) === 'object Boolean]';
+        return o === !!o;
+    },
+    each: function(obj, callback){
+        if (arguments.length != 2) {
+            throw new Error('need an object/array and a function to be the parameter');
+        }
+
+        if (!DJ.isFunction(arguments[1])) {
+            throw new Error('The parameter must be a function');
+        }
+
+        if (DJ.isArray(obj)) return DJ.arrayEach(obj, callback); 
+        if (DJ.isObject(obj)) return DJ.objectEach(obj, callback);
+    },
+
+    /**
+     * add an each to array
+     */
+    arrayEach: function(arr, callback) {
+        if (Array.prototype.forEach) 
+           return  arr.forEach(callback);
+
+        for (var i = 0, l = arr.length; i < l; i++) {
+            callback.call(arr, arr[i], i, arr);
+        }
+    },
+    objectEach: function(obj, callback) {
+        for (var i in obj) {
+            callback.call(obj, obj[i], i, obj);
+        }
     }
-    return oldObj;
-}
+});
 
-/*
- * from:
- * http://stackoverflow.com/questions/1700870/how-do-i-do-outerhtml-in-firefox
- */
-function outerHTML(node) {
-    // if IE, Chrome take the internal method otherwise build one
-    return node.outerHTML || (
-        function(n) {
-            var div = document.createElement('div'), h;
-            div.appendChild(n.cloneNode(true));
-            h = div.innerHTML;
-            div = null;
-            return h;
-        })(node);
-}
-
-function isObject(o) {
-    return Object.prototype.toString.call(o) === '[object Object]';
-}
-
-/**
- * nodeType
- * 1: element node
- * 9: document node
- */
-function isElement(o) {
-    if (o.nodeType && (o.nodeType == 1 || o.nodeType == 9)) {
-        return true;
-    }
-}
-
-function isArray(o) {
-    return Object.prototype.toString.call(o) === '[object Array]';
-}
-
-function isFunction(o) {
-    return Object.prototype.toString.call(o) == '[object Function]';
-}
-
-function isBool(o) {
-    //return Object.prototype.toString.call(o) === 'object Boolean]';
-    return o === !!o;
-}
-
-/**
- * add an each to array
- */
-Array.prototype.each = function() {
-    var fn, item, index, l = this.length;
-
-    if (arguments.length != 1) {
-        throw new Error('need a function to be the parameter');
-    }
-
-    if (!isFunction(arguments[0])) {
-        throw new Error('The parameter must be a function');
-    }
-
-    fn = arguments[0];
-
-    for (var i = 0; i < l; i++) {
-        fn.call(this, this[i], i);
-    }
-};
