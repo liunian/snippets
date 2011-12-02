@@ -50,9 +50,7 @@ DJ.export({
      * 9: document node
      */
     isElement: function(o) {
-        if (o.nodeType && (o.nodeType == 1 || o.nodeType == 9)) {
-            return true;
-        }
+        return o.nodeType && (o.nodeType == 1 || o.nodeType == 9);
     },
 
     isArray: function(o) {
@@ -65,9 +63,9 @@ DJ.export({
 
     isBool: function(o) {
         //return Object.prototype.toString.call(o) === 'object Boolean]';
-        return o === !!o;
+        return o === true || o === false;
     },
-    each: function(obj, callback){
+    each: function(obj, callback) {
         if (arguments.length != 2) {
             throw new Error('need an object/array and a function to be the parameter');
         }
@@ -76,7 +74,7 @@ DJ.export({
             throw new Error('The parameter must be a function');
         }
 
-        if (DJ.isArray(obj)) return DJ.arrayEach(obj, callback); 
+        if (DJ.isArray(obj)) return DJ.arrayEach(obj, callback);
         if (DJ.isObject(obj)) return DJ.objectEach(obj, callback);
     },
 
@@ -84,17 +82,23 @@ DJ.export({
      * add an each to array
      */
     arrayEach: function(arr, callback) {
-        if (Array.prototype.forEach) 
-           return  arr.forEach(callback);
+        if (Array.prototype.forEach)
+           return arr.forEach(callback);
 
         for (var i = 0, l = arr.length; i < l; i++) {
             callback.call(arr, arr[i], i, arr);
         }
     },
+
     objectEach: function(obj, callback) {
         for (var i in obj) {
             callback.call(obj, obj[i], i, obj);
         }
+    },
+
+    trim: function(str) {
+        if (str.trim()) return str.trim();
+        return str.replace(/^\s*/).replace(/\s*$/);
     }
 });
 
