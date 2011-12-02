@@ -5,13 +5,25 @@
 	<meta charset="utf-8" />
 	<style type="text/css" media="screen">
 		#test{background:grey; padding:30px 0;}
+        p{border:1px solid red;}
 	</style>
 </head>
 <body>
+	<script src="../src/dj.js" type="text/javascript"></script>
+	<script src="../src/event.js" type="text/javascript"></script>
+
 	<div id="test">
-		<p id="p">some test here</p>
+        delegate click event to 'p'
+		<p id="p">bind an click and delegate from #test</p>
+        <p>also has been delegate</p>
+        <div>Will not delegate from #test</div>
 	</div>
-	<script src="../event.js" type="text/javascript"></script>
+    <p>do not has click event</p>
+    <p>
+    	<a href="javascript:;" id="unbind">Unbind p1's click event</a>
+    	<a href="javascript:;" id="dy">create p in #test, will has click event</a>
+    </p>
+
 	<script type="text/javascript">
 		var t = document.getElementById('test'),
 			p = document.getElementById('p');
@@ -20,12 +32,22 @@
 			console.log(e.type + ' ' +  this.nodeName + ' ' +  new Date().getTime());
 		}
 
-		delegate(document, p, 'click', function(e){
+		DJ.delegate(t, 'p', 'click', function(e){
 			console.log('delegate event: ' + this.nodeName + ' ' + e.type);
 		});
 
 		//bind(t, 'click', show);
-		bind(p, 'click', show);
+		DJ.bind(p, 'click', show);
+        DJ.bind(document.getElementById('unbind'), 'click', function(e){
+                DJ.unbind(p, 'click', show);
+                DJ.preventDefault(e);
+        });
+        DJ.bind(document.getElementById('dy'), 'click', function(e){
+                var a = document.createElement('p');
+                a.innerHTML = 'another p, delegate click event from #test';
+                t.appendChild(a);
+                DJ.preventDefault(e);
+        });
 	</script>
 </body>
 </html>
