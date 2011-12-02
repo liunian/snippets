@@ -1,14 +1,54 @@
 /**
  * a simple console for ie
  *
- * requires util.js
+ * use the console.css in css folder to default display
  */
 
 window.console = typeof console !== 'undefined' ? console : function() {
 
     var panel,
         panelLog,
-        panelInput;
+        panelInput,
+        _toStr = Object.prototype.toString;
+
+    var isBool = function(o) {
+        return o === true || o === false;
+    };
+
+    var isArray = function(o) {
+        return _toStr.call(o) == '[object Array]';
+    };
+
+    var isObject = function(o) {
+        return _toStr.call(o) == '[object Object]';
+    };
+
+    var isElement = function(o) {
+        return o.nodeType && (o.nodeType == 1 || o.nodeType == 9); 
+    };
+
+    var isFunction = function(o) {
+        return _toStr.call(o) == '[object Function]'; 
+    };
+
+    /**
+     * get an element's outerHTML
+     * from:
+     * http://stackoverflow.com/questions/1700870/how-do-i-do-outerhtml-in-firefox
+     *
+     * @param {Element} node the element to get outerHTML from.
+     */
+    var outerHTML = function(node) {
+        // if IE, Chrome take the internal method otherwise build one
+        return node.outerHTML || (
+            function(n) {
+                var div = document.createElement('div'), h;
+                div.appendChild(n.cloneNode(true));
+                h = div.innerHTML;
+                div = null;
+                return h;
+            })(node);
+    };
 
     /**
      * create the console panel as first run
@@ -91,7 +131,7 @@ window.console = typeof console !== 'undefined' ? console : function() {
         }
         return result;
     };
-    
+
     /**
      * render an array
      *

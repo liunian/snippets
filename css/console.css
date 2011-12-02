@@ -18,3 +18,12 @@
 	border-color:#ccc;
 	border-width:0 0 1px;
 }
+
+/* use following to reset console-panel*/
+.console-panel{
+/*
+ * position:;
+ * width:;
+ * height:;
+ */
+}
