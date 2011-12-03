@@ -99,6 +99,12 @@ DJ.export({
     trim: function(str) {
         if (str.trim()) return str.trim();
         return str.replace(/^\s*/).replace(/\s*$/);
+    },
+    isIE: function() {
+        return !-[1, ];
+    },
+    isIE6: function() {
+       return DJ.isIE && !window.XMLHttpRequest;
     }
 });
 
