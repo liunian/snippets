@@ -1,7 +1,7 @@
 /**
  *  A simple snippets use to create popup box.
  *
- *  @requires [util.js, event.js]
+ *  @requires [dj.js, util.js]
  *  @author dengjij@gmail.com
  */
 
@@ -29,7 +29,7 @@
  *
  * @option {Boolean} cancelButton : whether show the cancel button or not, default: false
  *
- * @option {function} okcallback : call when click the okButton, default: empty function
+ * @option {function} okCallback : call when click the okButton, default: empty function
  *
  * @option {function} cancelCallback : call when click the cancelCallback, default: empty function
  *
@@ -43,12 +43,12 @@ var popBox = function(option) {
 		closeDelay: 0,
 		boxClass: 'popBox',
 		okButton: false,
-		okcallback: function() {},
+		okCallback: function() {},
 		cancelButton: false,
 		cancelCallback: function() {}
 	};
 	if (option) {
-		updateObj(this.option, option);
+		DJ.extend(this.option, option);
 	}
 	this.init();
 };
@@ -70,7 +70,7 @@ popBox.prototype = {
 			op.okEle.onclick = function(e) {
 				e = e || window.event;
 				self.ok();
-				stopDefault(e);
+				DJ.preventDefault(e);
 			};
 		}
 
@@ -78,15 +78,16 @@ popBox.prototype = {
 			op.cancelEle.onclick = function(e) {
 				e = e || window.event;
 				self.cancel();
-				stopDefault(e);
+				DJ.preventDefault(e);
 			};
 		}
 
 		if (op.closeEle) {
 			op.closeEle.onclick = function(e) {
 				e = e || window.event;
-				self.close();
-				stopDefault(e);
+                // make close button as cancel
+				self.cancel();
+				DJ.preventDefault(e);
 			};
 		}
 
@@ -135,23 +136,28 @@ popBox.prototype = {
 		var alinks = ele.getElementsByTagName('a');
 		for (var i = 0, l = alinks.length; i < l; i++) {
 			var a = alinks[i];
-			if (a.className.indexOf('close') != - 1) {
+			if (DJ.hasClass(a, 'close')) {
 				op.closeEle = a;
-			} else if (a.className.indexOf('iOk') != - 1) {
+			} else if (DJ.hasClass(a, 'iOk')) {
 				op.okEle = a;
-			} else if (a.className.indexOf('iCancel') != - 1) {
+			} else if (DJ.hasClass(a, 'iCancel')) {
 				op.cancelEle = a;
 			}
 		}
 	},
 	close: function() {
 		document.body.removeChild(this.option.ele);
+        delete this.option;
+        delete this.ele;
+        delete this.closeEle;
+        delete this.okEle;
+        delete this.cancelEle;
 	},
 	ok: function() {
 		var self = this,
 		op = self.option;
-		if (op.okcallback) {
-			op.okcallback();
+		if (op.okCallback) {
+			op.okCallback();
 		}
 		self.close();
 	},
