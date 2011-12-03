@@ -1,7 +1,7 @@
 /**
  *  A simple snippets use to create popup box.
  *
- *  @requires [dj.js, util.js]
+ *  @requires [dj.js, util.js, event.js]
  *  @author dengjij@gmail.com
  */
 
@@ -39,6 +39,8 @@ var popBox = function(option) {
 		title: null,
 		content: 'This is a popup box',
 		width: '350px',
+        withOverlay: true,
+        zIndex: 800,
 		closeButton: true,
 		closeDelay: 0,
 		boxClass: 'popBox',
@@ -99,7 +101,14 @@ popBox.prototype = {
 			},
 			delay);
 		}
+
 	},
+    hideOverlay: function() {
+        if (this.option.withOverlay) {
+            this.overlay.close();
+            delete this.overlay;
+        }
+    },
 	create: function() {
 		var self = this,
 		op = self.option;
@@ -144,9 +153,14 @@ popBox.prototype = {
 				op.cancelEle = a;
 			}
 		}
+
+        if(op.withOverlay) {
+            this.overlay = new overlay({'clickToHide': false, 'show': false});
+        }
 	},
 	close: function() {
 		document.body.removeChild(this.option.ele);
+        this.hideOverlay();
         delete this.option;
         delete this.ele;
         delete this.closeEle;
@@ -188,8 +202,10 @@ popBox.prototype = {
 		var left = (winWidth - op.ele.offsetWidth) / 2;
 
 		op.ele.style.position = 'absolute';
-		op.ele.style.zIndex = 200;
+		op.ele.style.zIndex = op.zIndex;
 		op.ele.style.top = top + 'px';
 		op.ele.style.left = left + 'px';
+        
+        this.overlay.show();
 	}
 };
