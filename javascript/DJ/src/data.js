@@ -9,7 +9,9 @@
  * The Data object does not store the dom to keep the relation of the data,
  * but just use an id to reference, just like the foreign key in database.
  */
-var Data = function() {
+
+
+(function() {
     var cache = {},
         // a random string to make sure the attribute for data is unique
         expando = 'data' + new Date().getTime(),
@@ -36,15 +38,11 @@ var Data = function() {
         var id = elem[expando];
         if (!id || !cache[id] || !cache[id][key]) return null;
         return delete cache[id][key];
-    };
+    };     
 
-    return {
-        //cache: cache,
-        //uuid: uuid,
-        //expando: expando,
+    DJ.export({
         setData: setData,
         getData: getData,
         removeData: removeData
-    };
-}();
-
+    });
+})();
