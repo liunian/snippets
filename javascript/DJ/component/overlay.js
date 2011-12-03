@@ -6,17 +6,17 @@
  */
 
 var overlay = function(option) {
-     this.option = {
-         className: 'overlay',
-         background: 'black',
-         opacity: 0.5,
-         zIndex: 500,
-         show: true,
-         // clickToHide means use hide() method but not close()
-         clickToHide: true
-     };
-     DJ.extend(this.option, option);
-     this.init();
+    this.option = {
+        className: 'overlay',
+        background: 'black',
+        opacity: 0.5,
+        zIndex: 500,
+        show: true,
+        // clickToHide means use hide() method but not close()
+        clickToHide: true
+    };
+    DJ.extend(this.option, option);
+    this.init();
 };
 
 overlay.prototype = {
@@ -45,7 +45,7 @@ overlay.prototype = {
     bind: function() {
         var self = this;
         if (self.option.clickToHide) {
-            DJ.bind(self.content, 'click', function(){
+            DJ.bind(self.content, 'click', function() {
                 self.hide();
             });
         }

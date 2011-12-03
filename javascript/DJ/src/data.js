@@ -38,7 +38,7 @@
         var id = elem[expando];
         if (!id || !cache[id] || !cache[id][key]) return null;
         return delete cache[id][key];
-    };     
+    };
 
     DJ.export({
         setData: setData,

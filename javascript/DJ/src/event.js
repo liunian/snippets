@@ -1,5 +1,5 @@
 /**
- * @fileoverview event handlers
+ * @fileoverview event handlers.
  *
  */
 (function() {
@@ -7,7 +7,7 @@
         /**
          *  Simple add / remove event from PPK
          */
-        bind: function (obj, type, fn) {
+        bind: function(obj, type, fn) {
             if (obj.addEventListener) {
                 obj.addEventListener(type, fn, false);
             }
@@ -18,7 +18,7 @@
 
         // do not remove all the functions if not offer type and fn;
         // Here is just some normal usage
-        unbind: function (obj, type, fn) {
+        unbind: function(obj, type, fn) {
             if (obj.removeEventListener) {
                 obj.removeEventListener(type, fn, false);
             }
@@ -31,7 +31,7 @@
          *  Stop event bubble, if ie, use e.cancelBubble = true; while other's following
          *  W3C standards, use e.stopPropagation().
          */
-        stopBubble: function (e) {
+        stopBubble: function(e) {
             if (e && e.stopPropagation) {
                 e.stopPropagation();
             }
@@ -43,7 +43,7 @@
         /**
          *  Prevent event trigger the default event handler
          */
-        preventDefault: function (e) {
+        preventDefault: function(e) {
             if (e && e.preventDefault) {
                 e.preventDefault();
             }
@@ -67,7 +67,7 @@
          * workflow: each time, use the selector to get the valid targetEle,
          * if current element in the list, trigger
          */
-        delegate: function (interfaceEle, selector, type, fn) {
+        delegate: function(interfaceEle, selector, type, fn) {
             DJ.bind(interfaceEle, type, function(e) {
                 e = e || window.event;
                 var target = e.target || e.srcElement;
@@ -77,19 +77,19 @@
             });
         }
     });
-   
+
     /**
      * only support #id, tagName, .className
      * and it's simple single, no combination
      */
     function matchSelector(ele, selector) {
         // if use id
-        if(selector.charAt(0) === '#') {
+        if (selector.charAt(0) === '#') {
             return ele.id === selector.slice(1);
         }
 
         // if use class
-        if(selector.charAt(0) === '.') {
+        if (selector.charAt(0) === '.') {
             return ' ' + ele.className + ' '.indexOf(' ' + selector.slice(1) + ' ') != -1;
         }
 
