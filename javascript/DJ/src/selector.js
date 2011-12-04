@@ -26,14 +26,12 @@
             tag = tag || '*';
 
         var els = context.getElementsByTagName(tag);
-        var elsLen = els.length;
         for (var i = 0, ele; ele = els[i]; i++) {
             if (DJ.hasClass(ele, className)) {
                 classElements.push(ele);
             }
         }
         return classElements;
-
     }
 
     DJ.export('$', function() {
