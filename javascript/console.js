@@ -4,15 +4,24 @@
  * use the console.css in css folder to default display
  */
 
-window.console = typeof console !== 'undefined' ? console : function() {
+window.console = /*typeof console !== 'undefined' ? console :*/ function() {
 
     var panel,
         panelLog,
         panelInput,
         _toStr = Object.prototype.toString;
 
+    var isSpecial = function(o) {
+        var undef;
+        return o === undef || o === null;
+    };
+
     var isBool = function(o) {
         return o === true || o === false;
+    };
+
+    var isString = function(o) {
+        return _toStr.call(o) == '[object String]';
     };
 
     var isArray = function(o) {
@@ -24,11 +33,11 @@ window.console = typeof console !== 'undefined' ? console : function() {
     };
 
     var isElement = function(o) {
-        return o.nodeType && (o.nodeType == 1 || o.nodeType == 9); 
+        return o.nodeType && (o.nodeType == 1 || o.nodeType == 9);
     };
 
     var isFunction = function(o) {
-        return _toStr.call(o) == '[object Function]'; 
+        return _toStr.call(o) == '[object Function]';
     };
 
     /**
@@ -97,7 +106,9 @@ window.console = typeof console !== 'undefined' ? console : function() {
     };
 
     var argType = function(arg) {
-        return isBool(arg) ? 'bool' : isArray(arg) ?
+        return isSpecial(arg) ? 'special' : isBool(arg) ?
+            'bool' : isString(arg) ?
+            'string' : isArray(arg) ?
             'array' : isElement(arg) ?
             'node' : isObject(arg) ?
             'object' : 'other';
@@ -112,11 +123,17 @@ window.console = typeof console !== 'undefined' ? console : function() {
             objType = argType(obj);
 
         switch (objType) {
+            case 'special':
+                result += renderSpecial(obj);
+                break;
             case 'bool':
                 result += renderBoolean(obj);
                 break;
             case 'array':
                 result += renderArray(obj);
+                break;
+            case 'string':
+                result += renderString(obj);
                 break;
             case 'node':
                 result += renderNode(obj);
@@ -185,6 +202,24 @@ window.console = typeof console !== 'undefined' ? console : function() {
      */
     var renderBoolean = function(bool) {
         return bool ? 'true' : 'false';
+    };
+
+    /**
+     * render string
+     *
+     * output => "str"
+     */
+    var renderString = function(str) {
+        return '"' + str + '"';
+    };
+
+    /**
+     * render null and undefined
+     *
+     * output => 'null' or 'undefined'
+     */
+    var renderSpecial = function(o) {
+        return o === null ? 'null' : 'undefined';
     };
 
     /**
