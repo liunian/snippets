@@ -97,7 +97,7 @@ DJ.export({
     },
 
     trim: function(str) {
-        if (str.trim()) return str.trim();
+        if (typeof String.prototype.trim === 'function') return str.trim();
         return str.replace(/^\s+/, '').replace(/\s+$/, '');
     },
     isIE: function() {
