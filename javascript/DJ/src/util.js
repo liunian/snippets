@@ -105,6 +105,19 @@ DJ.export({
     },
     isIE6: function() {
        return DJ.isIE && !window.XMLHttpRequest;
+    },
+    /**
+     * escape html as htmlspecialchars in php with ENT_QUOTES(htmlspecial(unsafe, ENT_QUOTES))
+     * from: http://stackoverflow.com/questions/1787322/htmlspecialchars-equivalent-in-javascript
+     * a more completed version: https://raw.github.com/kvz/phpjs/master/functions/strings/htmlspecialchars.js
+     **/
+    escapeHtml: function(unsafe) {
+        return unsafe
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#039;');
     }
 });
 
