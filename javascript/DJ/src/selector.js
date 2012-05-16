@@ -8,13 +8,27 @@
  *
  */
 (function() {
+    var _slice = Array.prototype.slice;
+
+    function realArray(c) {
+        try {
+            return _slice.call(c);
+        } catch (e) {
+            var ret = [], i=0, len=c.length;
+            for(; i < len; i++) {
+                ret[i] = (c[i]);
+            }
+            return ret;
+        }
+    }
+
     function $id(id) {
        return document.getElementById(id);
     }
 
     function $tag(tag, context) {
         context = context || document;
-        return context.getElementsByTagName(tag);
+        return realArray(context.getElementsByTagName(tag));
     }
 
     /**
@@ -38,7 +52,7 @@
         var undefined,
             args = arguments,
             f = args[0],
-            i = f[0],
+            i = f.charAt(0),
             s = f.substr(1);
 
         if (f == undefined) return;
