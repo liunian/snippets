@@ -14,8 +14,8 @@
         try {
             return _slice.call(c);
         } catch (e) {
-            var ret = [], i=0, len=c.length;
-            for(; i < len; i++) {
+            var ret = [], i = 0, len = c.length;
+            for (; i < len; i++) {
                 ret[i] = (c[i]);
             }
             return ret;

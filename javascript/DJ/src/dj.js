@@ -17,7 +17,7 @@ var DJ = {
  *
  *  2012-05-16 export 是保留字，在 ie6 下将会报错
  */
-DJ.add= function() {
+DJ.add = function() {
     var args = arguments;
     // if module Name, module
     if (args.length == 2) {

@@ -3,16 +3,24 @@
  *
  */
 (function() {
+
     DJ.add({
         /**
          *  Simple add / remove event from PPK
          */
         bind: function(obj, type, fn) {
+            // 提供 e 兼容处理和 IE 下 this 的修正,
+            // 否则此处会指向了 window 而不是出发的元素
+            var wrapFn = function(e) {
+                var e = e || window.event;
+                fn.call(obj, e);
+            };
+
             if (obj.addEventListener) {
-                obj.addEventListener(type, fn, false);
+                obj.addEventListener(type, wrapFn, false);
             }
             else if (obj.attachEvent) {
-                obj.attachEvent('on' + type, fn);
+                obj.attachEvent('on' + type, wrapFn);
             }
         },
 
