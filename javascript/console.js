@@ -4,7 +4,7 @@
  * use the console.css in css folder to default display
  */
 
-window.console = /*typeof console !== 'undefined' ? console :*/ function() {
+window.console = typeof console !== 'undefined' ? console : function() {
 
     var panel,
         panelLog,
