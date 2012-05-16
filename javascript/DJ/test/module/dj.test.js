@@ -1,11 +1,11 @@
 module('DJ');
 
-test('DJ.export', function(){
-    DJ.export('t1', function(){
+test('DJ.add', function(){
+    DJ.add('t1', function(){
         return 1;
     });
 
-    DJ.export({
+    DJ.add({
         t2: function(){
             return 2;
         },
