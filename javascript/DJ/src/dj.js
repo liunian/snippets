@@ -10,12 +10,14 @@ var DJ = {
 
 
 /**
- *  export modules
+ *  add modules
  *
  *  can take two parameters: moduleName, module content;
- *  or take a key-value object to export more than one per time
+ *  or take a key-value object to add more than one per time
+ *
+ *  2012-05-16 export 是保留字，在 ie6 下将会报错
  */
-DJ.export = function() {
+DJ.add= function() {
     var args = arguments;
     // if module Name, module
     if (args.length == 2) {

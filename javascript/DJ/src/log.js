@@ -7,7 +7,7 @@
  * @requires [dj.js]
  */
 
-DJ.export('log', function() {
+DJ.add('log', function() {
     // an array to store msg
     var _log = [];
 

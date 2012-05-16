@@ -5,7 +5,7 @@
  *
  * These funcions can be found in LazyloadJs or LABjs
  */
-DJ.export('require', function(url, callback) {
+DJ.add('require', function(url, callback) {
     var script = document.createElement('script');
     script.type = 'text/javascript';
 

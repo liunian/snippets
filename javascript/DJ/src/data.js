@@ -40,7 +40,7 @@
         return delete cache[id][key];
     };
 
-    DJ.export({
+    DJ.add({
         setData: setData,
         getData: getData,
         removeData: removeData

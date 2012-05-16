@@ -34,7 +34,7 @@
         return classElements;
     }
 
-    DJ.export('$', function() {
+    DJ.add('$', function() {
         var undefined,
             args = arguments,
             f = args[0],

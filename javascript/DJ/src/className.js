@@ -1,7 +1,7 @@
 /**
  * @fileoverview test, add and remove class of an element.
  */
-DJ.export({
+DJ.add({
     // prevent considering part of the element's class is the className
     // by adding space to element's class and search className before and after
     hasClass: function(element, className) {

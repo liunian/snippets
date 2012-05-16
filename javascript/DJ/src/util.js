@@ -3,7 +3,7 @@
  *    @author dengjij@gmail.com
  */
 
-DJ.export({
+DJ.add({
 
     /**
      *  A simple function to extend target with source

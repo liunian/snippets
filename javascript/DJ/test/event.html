@@ -10,7 +10,9 @@
 </head>
 <body>
 	<script src="../src/dj.js" type="text/javascript"></script>
-	<script src="../src/event.js" type="text/javascript"></script>
+    <!--<script src="../src/selector.js" type="text/javascript"></script>-->
+    <!--<script src="../src/util.js" type="text/javascript"></script>-->
+    <!--<script src="../src/event.js" type="text/javascript"></script>-->
 
 	<div id="test">
         delegate click event to 'p'
@@ -24,30 +26,12 @@
     	<a href="javascript:;" id="dy">create p in #test, will has click event</a>
     </p>
 
-	<script type="text/javascript">
-		var t = document.getElementById('test'),
-			p = document.getElementById('p');
+    <div id="btns">
+    	<button>button1</button>
+    	<button>button2</button>
+    	<button>button3</button>
+    </div>
 
-		function show(e){
-			console.log(e.type + ' ' +  this.nodeName + ' ' +  new Date().getTime());
-		}
-
-		DJ.delegate(t, 'p', 'click', function(e){
-			console.log('delegate event: ' + this.nodeName + ' ' + e.type);
-		});
-
-		//bind(t, 'click', show);
-		DJ.bind(p, 'click', show);
-        DJ.bind(document.getElementById('unbind'), 'click', function(e){
-                DJ.unbind(p, 'click', show);
-                DJ.preventDefault(e);
-        });
-        DJ.bind(document.getElementById('dy'), 'click', function(e){
-                var a = document.createElement('p');
-                a.innerHTML = 'another p, delegate click event from #test';
-                t.appendChild(a);
-                DJ.preventDefault(e);
-        });
-	</script>
+    <!--<script src="event.test.js" type="text/javascript"></script>-->
 </body>
 </html>

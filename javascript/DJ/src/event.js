@@ -3,7 +3,7 @@
  *
  */
 (function() {
-    DJ.export({
+    DJ.add({
         /**
          *  Simple add / remove event from PPK
          */
