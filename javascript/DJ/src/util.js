@@ -82,9 +82,6 @@ DJ.add({
      * add an each to array
      */
     arrayEach: function(arr, callback) {
-        if (Array.prototype.forEach)
-           return arr.forEach(callback);
-
         for (var i = 0, l = arr.length; i < l; i++) {
             callback.call(arr, arr[i], i, arr);
         }
@@ -100,11 +97,8 @@ DJ.add({
         if (typeof String.prototype.trim === 'function') return str.trim();
         return str.replace(/^\s+/, '').replace(/\s+$/, '');
     },
-    isIE: function() {
-        return !-[1, ];
-    },
     isIE6: function() {
-       return DJ.isIE && !window.XMLHttpRequest;
+       return !-[1, ] && !window.XMLHttpRequest;
     },
     /**
      * escape html as htmlspecialchars in php with ENT_QUOTES(htmlspecial(unsafe, ENT_QUOTES))
