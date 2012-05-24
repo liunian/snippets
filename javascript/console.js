@@ -101,7 +101,7 @@ window.console = typeof console !== 'undefined' ? console : function() {
     var appendLog = function(msg) {
         var perLog = document.createElement('div');
         perLog.className = 'console-log-line';
-        perLog.innerHTML = msg;
+        perLog.innerHTML = msg.replace(/&/gm, '&amp;').replace(/</gm, '&lt');
         panelLog.appendChild(perLog);
     };
 
@@ -175,7 +175,7 @@ window.console = typeof console !== 'undefined' ? console : function() {
      * output outerHTML of the node
      */
     var renderNode = function(node) {
-        return outerHTML(node).replace(/</g, '&lt;');
+        return outerHTML(node);
     };
 
     /**
