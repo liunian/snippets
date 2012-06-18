@@ -188,7 +188,9 @@ window.console = typeof console !== 'undefined' ? console : function() {
             aRes = [];
 
         for (var i in obj) {
-            aRes.push(i + ': ' + render(obj[i]));
+            if (obj.hasOwnProperty(i)) {
+                aRes.push(i + ': ' + render(obj[i]));
+            }
         }
 
         res += aRes.join(', ') + '}';
