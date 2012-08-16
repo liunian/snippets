@@ -39,6 +39,11 @@
 		console.log(a, b, o, n);
 
         console.log('&amp;&lt;<>');
+
+        console.log(window); // leads to stack overflow in ie
+
+        console.log(document.body);
+
 	</script>
 </body>
 </html>

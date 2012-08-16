@@ -239,17 +239,21 @@ window.console = typeof console !== 'undefined' ? console : function() {
      * can use comma to seperate input values
      */
     var log = function() {
-        var renderedArgs = [],
-            i = 0,
-            result = '';
-            il = arguments.length;
+        try{
+            var renderedArgs = [],
+                i = 0,
+                result = '';
+                il = arguments.length;
 
-        for (; i < il; i += 1) {
-            renderedArgs.push(render(arguments[i]));
+            for (; i < il; i += 1) {
+                renderedArgs.push(render(arguments[i]));
+            }
+
+            result = renderedArgs.join('&nbsp;&nbsp;&nbsp;&nbsp;');
+            appendLog(result);
+        } catch (e) {
+            appendLog('seems out of stack overflow');
         }
-
-        result = renderedArgs.join('&nbsp;&nbsp;&nbsp;&nbsp;');
-        appendLog(result);
     };
 
     /**
