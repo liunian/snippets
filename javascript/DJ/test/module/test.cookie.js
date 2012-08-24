@@ -6,13 +6,13 @@ describe('DJ.cookie', function() {
     describe('DJ.cookie.has', function() {
         it('should return false when testing the non-exist cookie',
             function() {
-            expect(has('non_exist_cookie')).to.be.false;
+            expect(has('non_exist_cookie')).to.equal(false);
         });
 
         it('should return true after setting the exist_cookie',
             function() {
             set('exist_cookie', 'exist');
-            expect(has('exist_cookie')).to.be.true;
+            expect(has('exist_cookie')).to.equal(true);
         });
 
     });
@@ -36,11 +36,11 @@ describe('DJ.cookie', function() {
 
             // set time to -1 to remove it
             set('expire_cookie_2', 1, {expires: -1});
-            expect(get('expire_cookie_2')).to.be.null;
+            expect(get('expire_cookie_2')).to.equal(null);
 
             // set the value to remove it
             set('expire_cookie_3', null);
-            expect(get('expire_cookie_3')).to.be.null;
+            expect(get('expire_cookie_3')).to.equal(null);
         });
 
         it('set cookie with path and others, need to see developer tool', function() {
@@ -54,8 +54,8 @@ describe('DJ.cookie', function() {
             set('exist_cookie', null);
             set('non_assii_cookie', null);
 
-            expect(has('exist_cookie')).to.be.false;
-            expect(has('non_assii_cookie')).to.be.false;
+            expect(has('exist_cookie')).to.equal(false);
+            expect(has('non_assii_cookie')).to.equal(false);
         });
     });
 });
