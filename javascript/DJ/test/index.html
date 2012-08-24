@@ -1,38 +1,36 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Qunit Test</title>
+    <title>Test with mocha and chai</title>
     <meta charset="utf-8" />
-    <link rel="stylesheet" href="qunit/qunit.css" type="text/css" media="screen">
-    <link rel="stylesheet" href="css/test.css" type="text/css" media="screen" charset="utf-8">
-    <script src="qunit/qunit.js" type="text/javascript"></script>
-
-    <!-- src -->
-    <script type="text/javascript" src="../src/dj.js"></script>
-    <script type="text/javascript" src="../src/log.js"></script>
-    <script type="text/javascript" src="../src/util.js"></script>
-    <script type="text/javascript" src="../src/require.js"></script>
-    <script type="text/javascript" src="../src/className.js"></script>
-    <script type="text/javascript" src="../src/data.js"></script>
-    <script type="text/javascript" src="../src/selector.js"></script>
-
-    <!-- test module -->
-    <script type="text/javascript" src="module/dj.test.js"></script>
-    <script type="text/javascript" src="module/log.test.js"></script>
-    <script type="text/javascript" src="module/util.test.js"></script>
-    <script type="text/javascript" src="module/require.test.js"></script>
-    <script type="text/javascript" src="module/className.test.js"></script>
-    <script type="text/javascript" src="module/data.test.js"></script>
-    <script type="text/javascript" src="module/selector.test.js"></script>
 </head>
 <body>
-    <div id="qunitTest">
-        <h1 id="qunit-header">QUnit Test Suite</h1>
-        <h2 id="qunit-banner"></h2>
-        <div id="qunit-testrunner-toolbar"></div>
-        <h2 id="qunit-userAgent"></h2>
-        <ol id="qunit-tests"></ol>
-        <div id="qunit-fixture">test markup</div>
-    </div> 
+    <link rel="stylesheet" href="css/mocha.css" type="text/css" />
+    <script src="lib/jquery.js" type="text/javascript"></script>
+    <script src="lib/mocha.js" type="text/javascript"></script>
+    <script src="lib/chai.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        mocha.setup({
+            ui: 'bdd',
+            globals: ['script*', 'msg', /*firebug*/ 'Drag', 'pixelPerfect', /*opera*/ 'stats', 'report']
+        });
+        var expect = chai.expect;
+    </script>
+
+    <!-- js source -->
+    <script src="../src/dj.js" type="text/javascript"></script>
+    <script src="../src/util.js" type="text/javascript"></script>
+    <script src="../src/cookie.js" type="text/javascript"></script>
+
+    <!-- test modules -->
+    <script src="module/test.cookie.js" type="text/javascript"></script>
+
+    <script type="text/javascript">
+        $(function() {
+            mocha
+                .run();
+        });
+    </script>
 </body>
+    <div id="mocha"></div>
 </html>
