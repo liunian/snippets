@@ -18,7 +18,6 @@ DJ.add({
                 target[item] = source[item];
             }
         }
-        return target;
     },
 
     /**
