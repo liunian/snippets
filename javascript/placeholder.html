@@ -1,0 +1,33 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>placeholder</title>
+    <style type="text/css">
+        .placehold{color:#B3A9C1;}
+
+		/* setting styles for placeholder */
+		#in3::-webkit-input-placeholder{color:red; background:yellow;}
+		#in3:-moz-placeholder {color:red; background: yellow;}
+        #in3.placehold{color:red; background: yellow;}
+    </style>
+    <script type="text/javascript" src="placeholder.js"></script>
+</head>
+<body>
+    <form action="" autocomplete="off">
+        <input type="text" value="" id="in1" placeholder="using placeholder" /><label for="in1">using placeholder</label><br />
+        <input type="text" value="" id="in2" placeholder="using placeholder" /><label for="in2">rewrite placeholder value</label><br />
+        <input type="text" value="" id="in3" placeholder="using placeholder" /><label for="in3">background and color</label><br />
+    </form>
+    <script type="text/javascript">
+        var $ = function(id) {return document.getElementById(id);},
+            t1 = $('in1'),
+            t2 = $('in2'),
+            t3 = $('in3');
+
+        Placeholder.make(t1);
+        Placeholder.make(t2, 'Using new placeholder value');
+        Placeholder.make(t3);
+    </script>
+</body>
+</html>
