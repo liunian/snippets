@@ -2,66 +2,12 @@
  * @fileoverview event handlers.
  *
  */
-(function() {
-
-    DJ.add({
-        /**
-         *  Simple add / remove event from PPK
-         */
-        bind: function(obj, type, fn) {
-            // 提供 e 兼容处理和 IE 下 this 的修正,
-            // 否则此处会指向了 window 而不是出发的元素
-            var wrapFn = function(e) {
-                var e = e || window.event;
-                fn.call(obj, e);
-            };
-
-            if (obj.addEventListener) {
-                obj.addEventListener(type, wrapFn, false);
-            }
-            else if (obj.attachEvent) {
-                obj.attachEvent('on' + type, wrapFn);
-            }
-        },
-
-        // do not remove all the functions if not offer type and fn;
-        // Here is just some normal usage
-        unbind: function(obj, type, fn) {
-            if (obj.removeEventListener) {
-                obj.removeEventListener(type, fn, false);
-            }
-            else if (obj.detachEvent) {
-                obj.detachEvent('on' + type, fn);
-            }
-        },
-
-        /**
-         *  Stop event bubble, if ie, use e.cancelBubble = true; while other's following
-         *  W3C standards, use e.stopPropagation().
-         */
-        stopBubble: function(e) {
-            if (e && e.stopPropagation) {
-                e.stopPropagation();
-            }
-            else {
-                window.event.cancelBubble = true;
-            }
-        },
-
-        /**
-         *  Prevent event trigger the default event handler
-         */
-        preventDefault: function(e) {
-            if (e && e.preventDefault) {
-                e.preventDefault();
-            }
-            else {
-                window.event.returnValue = false;
-            }
-        },
-
-
-
+(function($) {
+    var event = {
+        on: null,
+        off: null,
+        stopBubble: null,
+        preventDefault: null,
         /**
          * delegate event
          *
@@ -76,15 +22,55 @@
          * if current element in the list, trigger
          */
         delegate: function(interfaceEle, selector, type, fn) {
-            DJ.bind(interfaceEle, type, function(e) {
+            $.on(interfaceEle, type, function(e) {
                 e = e || window.event;
                 var target = e.target || e.srcElement;
                 if (matchSelector(target, selector)) {
-                    fn && fn.call(target, e);
+                    if(fn) {
+                        fn.call(target, e);
+                    }
                 }
             });
         }
-    });
+    };
+
+    // do browser feature detected only once
+    if (typeof window.addEventListener === 'function') {
+        event.on = function(obj, type, fn) {
+            obj.addEventListener(type, fn, false);
+        };
+
+        event.off = function(obj, type, fn) {
+            obj.removeEventListener(type, fn, false);
+        };
+
+        event.stopBubble = function(e) {
+            e.stopPropagation();
+        };
+
+        event.preventDefault = function(e) {
+            e.preventDefault();
+        };
+    } else {
+        event.on = function(obj, type, fn) {
+            var wrapFn = function() {
+                fn.call(obj, window.event);
+            };
+            obj.attachEvent('on' + type, wrapFn);
+        };
+
+        event.off = function(obj, type, fn) {
+            obj.detachEvent('on' + type, fn);
+        };
+
+        event.stopBubble = function() {
+            window.event.cancelBubble = true;
+        };
+
+        event.preventDefault = function() {
+            window.event.returnValue = false;
+        };
+    }
 
     /**
      * only support #id, tagName, .className
@@ -104,4 +90,7 @@
         // if use tagName
         return ele.tagName.toLowerCase() === selector.toLowerCase();
     }
-})();
+
+    $.add(event);
+    event = null;
+})(DJ);
