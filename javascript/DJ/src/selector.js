@@ -36,11 +36,12 @@
      */
     function $class(className, context, tag) {
         var classElements = [],
-            context = context || document,
-            tag = tag || '*';
+            ctx = context || document;
 
-        var els = context.getElementsByTagName(tag);
-        for (var i = 0, ele; ele = els[i]; i++) {
+        tag = tag || '*';
+
+        var els = ctx.getElementsByTagName(tag);
+        for (var i = 0, ele; (ele = els[i]) !== undefined; i++) {
             if (DJ.hasClass(ele, className)) {
                 classElements.push(ele);
             }
@@ -49,13 +50,13 @@
     }
 
     DJ.add('$', function() {
-        var undefined,
+        var undef,
             args = arguments,
             f = args[0],
             i = f.charAt(0),
             s = f.substr(1);
 
-        if (f == undefined) return;
+        if (f === undef) return;
 
         return i == '#' ? $id(s) :
            i == '.' ? $class(s, args[1], args[2]) :

@@ -16,7 +16,7 @@ DJ.add('log', function() {
 
     //  return a log's copy
     var copy = function(log) {
-        if (log == undefined) return log;
+        if (log === undefined) return log;
         var res = {};
 
         res.id = log.id;

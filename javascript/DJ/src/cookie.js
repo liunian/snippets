@@ -44,7 +44,7 @@
  * requires: [DJ.js, util.js]
  */
 
-(function() {
+(function($) {
     var cookie = {
         default_option: {
             path: '',
@@ -53,7 +53,7 @@
         },
         set: function(key, value, options) {
             options = options || {};
-            DJ.extend(options, cookie.default_option, false);
+            $.extend(options, cookie.default_option, false);
 
             /**
              * set the cookie and return it
@@ -103,8 +103,8 @@
         }
     };
 
-    // export to DJ namesapce
-    DJ.add({
+    // export to $ namesapce
+    $.add({
         cookie: cookie
     });
-})();
+})(DJ);

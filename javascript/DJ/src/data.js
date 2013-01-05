@@ -11,7 +11,7 @@
  */
 
 
-(function() {
+(function($) {
     var cache = {},
         // a random string to make sure the attribute for data is unique
         expando = 'data' + new Date().getTime(),
@@ -40,9 +40,9 @@
         return delete cache[id][key];
     };
 
-    DJ.add({
+    $.add({
         setData: setData,
         getData: getData,
         removeData: removeData
     });
-})();
+})(DJ);

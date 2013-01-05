@@ -81,7 +81,7 @@ var Placeholder = function() {
      */
     function simulatePlaceholder(input) {
         // 没值时，使用占位文字
-        if (input.value == '') {
+        if (input.value === '') {
             takePlaceHold(input);
         }
 

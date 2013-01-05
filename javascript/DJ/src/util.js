@@ -12,7 +12,7 @@ DJ.add({
      *  @param {Boolean} override true to override, default true.
      */
     extend: function(target, source, override) {
-        if (override == undefined) override = true;
+        if (override === undefined) override = true;
         for (var item in source) {
             if (override || !(item in target)) {
                 target[item] = source[item];
@@ -97,7 +97,7 @@ DJ.add({
         return str.replace(/^\s+/, '').replace(/\s+$/, '');
     },
     isIE6: function() {
-       return !-[1, ] && !window.XMLHttpRequest;
+        return (/msie 6/i).test(navigator.userAgent);
     },
     /**
      * escape html as htmlspecialchars in php with ENT_QUOTES(htmlspecial(unsafe, ENT_QUOTES))
