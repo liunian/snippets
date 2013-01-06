@@ -13,4 +13,5 @@ module.exports = function(grunt) {
     });
 
     grunt.registerTask('default', 'lint');
+    grunt.registerTask('pre-commit', 'lint');
 };
