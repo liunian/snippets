@@ -8,10 +8,17 @@ module.exports = function(grunt) {
             }
         },
         mocha: {
-            index: ['javascript/DJ/test/index.html']
+            unit: {
+                src: ['javascript/DJ/test/index.html'],
+                options: {
+                    run: true
+                }
+            }
         }
     });
 
-    grunt.registerTask('default', 'lint');
+    grunt.loadNpmTasks('grunt-mocha');
+
+    grunt.registerTask('default', 'lint mocha');
     grunt.registerTask('pre-commit', 'lint');
 };
