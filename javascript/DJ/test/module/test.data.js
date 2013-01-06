@@ -31,7 +31,7 @@ describe('DJ.data', function() {
         });
 
         it('get non-seeted data should return null', function(){
-            expect(DJ.getData(t, 'key0')).to.be.null;
+            expect(DJ.getData(t, 'key0')).to.equal(null);
         });
 
         t.tearDown();
@@ -46,7 +46,7 @@ describe('DJ.data', function() {
         DJ.removeData(t, 'key2');
 
         it('should be null after being removed', function(){
-            expect(DJ.getData(t, 'key2')).to.be.null;
+            expect(DJ.getData(t, 'key2')).to.equal(null);
         });
 
         it('but the others remains', function() {
