@@ -22,6 +22,7 @@
     <script src="../src/cookie.js" type="text/javascript"></script>
     <script src="../src/event.js" type="text/javascript"></script>
     <script src="../src/data.js" type="text/javascript"></script>
+    <script src="../src/log.js" type="text/javascript"></script>
 
     <!-- test modules -->
     <script src="module/test.dj.js" type="text/javascript"></script>
@@ -29,11 +30,15 @@
     <script src="module/test.cookie.js" type="text/javascript"></script>
     <script src="module/test.event.js" type="text/javascript"></script>
     <script src="module/test.data.js" type="text/javascript"></script>
+    <script src="module/test.log.js" type="text/javascript"></script>
 
     <script type="text/javascript">
-        $(function() {
-            mocha
-                .run();
+        $(function(){
+            if(window.mochaPhantomJS) {
+                mochaPhantomJS.run();
+            } else {
+                mocha.run();
+            }
         });
     </script>
 </body>

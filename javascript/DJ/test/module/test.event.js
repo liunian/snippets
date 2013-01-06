@@ -6,7 +6,7 @@ describe('DJ.event', function() {
     }
 
     describe('DJ.on', function() {
-        it('bind', function() {
+        it('on', function() {
             var ele = createEle();
             DJ.on(ele, 'click', function(e) {
 

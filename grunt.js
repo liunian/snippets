@@ -6,8 +6,10 @@ module.exports = function(grunt) {
         jshint: {
             options: {
             }
+        },
+        mocha: {
+            index: ['javascript/DJ/test/index.html']
         }
-
     });
 
     grunt.registerTask('default', 'lint');
