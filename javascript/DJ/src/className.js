@@ -14,7 +14,7 @@ DJ.add({
             parts = className.split(/\s+/);
 
         DJ.each(parts, function(part) {
-            if (! hasClass(element, part)) {
+            if (! DJ.hasClass(element, part)) {
                 res += ' ' + part;
             }
         });
@@ -26,11 +26,11 @@ DJ.add({
             parts = className.split(/\s+/);
 
         DJ.each(parts, function(part) {
-            DJ.each(res, function(aRes, i) {
-                if (aRes == part) {
-                    res[i] = '';
+            for(var i = res.length - 1; i >= 0; i--) {
+                if(res[i] == part) {
+                    res.splice(i, 1);
                 }
-            });
+            }
         });
         element.className = res.join(' ');
     }
