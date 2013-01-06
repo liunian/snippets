@@ -39,35 +39,40 @@ describe('DJ.log', function() {
         });
     });
 
-    test('DJ.log.getById', function(){
-        DJ.log.empty();
+    describe('DJ.log.getById', function(){
+        it('getById', function() {
+            DJ.log.empty();
+            testHelper.addLog();
 
-        testHelper.addLog();
+            expect(DJ.log.getById(2).msg).to.equal('second log');
+            expect(DJ.log.getById(3)).to.equal(undefined);
 
-        equal(DJ.log.getById(2).msg, 'second log');
-        equal(DJ.log.getById(3), undefined);
-
-        DJ.log.empty();
+            DJ.log.empty();
+        });
     });
 
 
-    test('DJ.log.head', function() {
-        DJ.log.empty();
+    describe('DJ.log.head', function() {
+        it('.head() will return an array with given size log inside it, if no argument, only the first one', function(){
+            DJ.log.empty();
+            testHelper.addLog();
 
-        testHelper.addLog();
-        equal(DJ.log.head()[0].id, 1);
-        equal(DJ.log.head(2)[1].id, 2);
+            expect(DJ.log.head()[0].id).to.equal(1);
+            expect(DJ.log.head(2)[1].id).to.equal(2);
 
-        DJ.log.empty();
+            DJ.log.empty();
+        });
     });
 
-    test('DJ.log.tail', function() {
-        DJ.log.empty();
+    describe('DJ.log.tail', function() {
+        it('the same as head, but from the end', function() {
+            DJ.log.empty();
+            testHelper.addLog();
 
-        testHelper.addLog();
-        equal(DJ.log.tail()[0].id, 2);
-        equal(DJ.log.head(2)[1].id, 2);
+            expect(DJ.log.tail()[0].id).to.equal(2);
+            expect(DJ.log.head(2)[1].id).to.equal(2);
 
-        DJ.log.empty();
+            DJ.log.empty();
+        });
     });
 });
