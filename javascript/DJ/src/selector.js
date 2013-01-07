@@ -4,7 +4,7 @@
  * 对于class，还可以指定查找的tag。
  * 即，id的话是一个参数，tag是2个参数，class是3个参数。
  * 多于限定的参数没影响，因为不参与运算。
- * 参数的顺序依次是：selector, context, tagName（多存在时）.
+ * 参数的顺序依次是：selector, context, tagName（当存在时）.
  *
  */
 (function() {
