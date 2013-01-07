@@ -47,6 +47,7 @@ describe('DJ.class', function(){
                 ele = c.ele;
             DJ.addClass(ele, 'a');
             expect(ele.className).to.equal('a ab ba bac a-a-a');
+            c.tearDown();
         });
 
         it('add classes at one time(some exist)', function() {
