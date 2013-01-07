@@ -20,5 +20,5 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-mocha');
 
     grunt.registerTask('default', 'lint mocha');
-    grunt.registerTask('pre-commit', 'lint');
+    grunt.registerTask('pre-commit', 'lint mocha');
 };
