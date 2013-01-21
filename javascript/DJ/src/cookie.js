@@ -1,12 +1,12 @@
 /**
- * @module cookie
- * @class cookie
+ * @module Cookie
+ * @class Cookie
  *
  * cookies
  *
- * - hasCookie
- * - getCookie
- * - setCookie
+ * - Cookie.has
+ * - Cookie.get
+ * - Cookie.set
  *
  * use `document.cookie` can access all cookies in current domain
  * and path(or upper).
@@ -105,6 +105,6 @@
 
     // export to $ namesapce
     $.add({
-        cookie: cookie
+        Cookie: cookie
     });
 })(DJ);
