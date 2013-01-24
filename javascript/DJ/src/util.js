@@ -10,6 +10,7 @@ DJ.add({
      *  @param {Object} target the object to extend.
      *  @param {Object} source the object to help extend target.
      *  @param {Boolean} override true to override, default true.
+     *  @return {Object} returns the target after extended, needed by the target is an empty Object at begin
      */
     extend: function(target, source, override) {
         if (override === undefined) override = true;
@@ -18,6 +19,7 @@ DJ.add({
                 target[item] = source[item];
             }
         }
+        return target;
     },
 
     /**
