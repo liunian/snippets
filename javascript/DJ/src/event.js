@@ -11,10 +11,8 @@
     var event = {
         on: null,
         off: null,
-        stopBubble: null,
-        preventDefault: null,
         /**
-         * delegate event
+         * delegate event(only support single selector)
          *
          * receive all the bubble event in interface element,
          * use the event.target or event.srcElement
@@ -28,11 +26,9 @@
          */
         delegate: function(interfaceEle, selector, type, fn) {
             $.on(interfaceEle, type, function(e) {
-                e = e || window.event;
-                var target = e.target || e.srcElement;
-                if (matchSelector(target, selector)) {
+                if (matchSelector(e.target, selector)) {
                     if(fn) {
-                        fn.call(target, e);
+                        fn.call(e.target, e);
                     }
                 }
             });
@@ -42,27 +38,24 @@
     // do browser feature detected only once
     if (typeof window.addEventListener === 'function') {
         event.on = function(obj, type, fn) {
+            var wrapFn = function(event) {
+                var e = extendEvent(event);
+                fn.call(obj, event);
+            };
             fn._uuid = _uuid;
-            eventsMap[_uuid++] = fn;
-            obj.addEventListener(type, fn, false);
+            eventsMap[_uuid++] = wrapFn;
+            obj.addEventListener(type, wrapFn, false);
         };
 
         event.off = function(obj, type, fn) {
             obj.removeEventListener(type, fn, false);
             delete eventsMap[fn._uuid];
         };
-
-        event.stopBubble = function(e) {
-            e.stopPropagation();
-        };
-
-        event.preventDefault = function(e) {
-            e.preventDefault();
-        };
     } else {
         event.on = function(obj, type, fn) {
             var wrapFn = function() {
-                fn.call(obj, window.event);
+                var e = extendEvent(window.event);
+                fn.call(obj, e);
             };
             fn._uuid = _uuid;
             eventsMap[_uuid++] = wrapFn;
@@ -71,14 +64,6 @@
 
         event.off = function(obj, type, fn) {
             obj.detachEvent('on' + type, fn);
-        };
-
-        event.stopBubble = function() {
-            window.event.cancelBubble = true;
-        };
-
-        event.preventDefault = function() {
-            window.event.returnValue = false;
         };
     }
 
@@ -121,6 +106,26 @@
 
         // if use tagName
         return ele.tagName.toLowerCase() === selector.toLowerCase();
+    }
+
+    /**
+     * extend event object, such as stopPropagation, preventDefault etc.
+     */
+    function extendEvent(e) {
+        if (typeof window.addEventListener === 'function') {
+        } else {
+            e.stopPropagation = function() {
+                e.cancelBubble = true;
+            };
+
+            e.preventDefault = function() {
+                e.returnValue = false;
+            };
+        }
+        if (!e.target && e.srcElement) {
+            e.target = e.srcElement;
+        }
+        return e;
     }
 
     $.add(event);
