@@ -4,7 +4,7 @@
  * 对于class，还可以指定查找的tag。
  * 即，id的话是一个参数，tag是2个参数，class是3个参数。
  * 多于限定的参数没影响，因为不参与运算。
- * 参数的顺序依次是：selector, context, tagName（多存在时）.
+ * 参数的顺序依次是：selector, context, tagName（当存在时）.
  *
  */
 (function() {
@@ -36,11 +36,12 @@
      */
     function $class(className, context, tag) {
         var classElements = [],
-            context = context || document,
-            tag = tag || '*';
+            ctx = context || document;
 
-        var els = context.getElementsByTagName(tag);
-        for (var i = 0, ele; ele = els[i]; i++) {
+        tag = tag || '*';
+
+        var els = ctx.getElementsByTagName(tag);
+        for (var i = 0, ele; (ele = els[i]) !== undefined; i++) {
             if (DJ.hasClass(ele, className)) {
                 classElements.push(ele);
             }
@@ -49,13 +50,13 @@
     }
 
     DJ.add('$', function() {
-        var undefined,
+        var undef,
             args = arguments,
             f = args[0],
             i = f.charAt(0),
             s = f.substr(1);
 
-        if (f == undefined) return;
+        if (f === undef) return;
 
         return i == '#' ? $id(s) :
            i == '.' ? $class(s, args[1], args[2]) :

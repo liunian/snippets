@@ -1,12 +1,12 @@
 /**
- * @module cookie
- * @class cookie
+ * @module Cookie
+ * @class Cookie
  *
  * cookies
  *
- * - hasCookie
- * - getCookie
- * - setCookie
+ * - Cookie.has
+ * - Cookie.get
+ * - Cookie.set
  *
  * use `document.cookie` can access all cookies in current domain
  * and path(or upper).
@@ -44,7 +44,7 @@
  * requires: [DJ.js, util.js]
  */
 
-(function() {
+(function($) {
     var cookie = {
         default_option: {
             path: '',
@@ -53,7 +53,7 @@
         },
         set: function(key, value, options) {
             options = options || {};
-            DJ.extend(options, cookie.default_option, false);
+            $.extend(options, cookie.default_option, false);
 
             /**
              * set the cookie and return it
@@ -103,8 +103,8 @@
         }
     };
 
-    // export to DJ namesapce
-    DJ.add({
-        cookie: cookie
+    // export to $ namesapce
+    $.add({
+        Cookie: cookie
     });
-})();
+})(DJ);

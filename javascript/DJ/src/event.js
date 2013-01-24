@@ -2,68 +2,17 @@
  * @fileoverview event handlers.
  *
  */
-(function() {
+(function($) {
+    // event fn id
+    var _uuid = 1;
+    // event maps, key is _uuid, value is fn
+    var eventsMap = {};
 
-    DJ.add({
+    var event = {
+        on: null,
+        off: null,
         /**
-         *  Simple add / remove event from PPK
-         */
-        bind: function(obj, type, fn) {
-            // 提供 e 兼容处理和 IE 下 this 的修正,
-            // 否则此处会指向了 window 而不是出发的元素
-            var wrapFn = function(e) {
-                var e = e || window.event;
-                fn.call(obj, e);
-            };
-
-            if (obj.addEventListener) {
-                obj.addEventListener(type, wrapFn, false);
-            }
-            else if (obj.attachEvent) {
-                obj.attachEvent('on' + type, wrapFn);
-            }
-        },
-
-        // do not remove all the functions if not offer type and fn;
-        // Here is just some normal usage
-        unbind: function(obj, type, fn) {
-            if (obj.removeEventListener) {
-                obj.removeEventListener(type, fn, false);
-            }
-            else if (obj.detachEvent) {
-                obj.detachEvent('on' + type, fn);
-            }
-        },
-
-        /**
-         *  Stop event bubble, if ie, use e.cancelBubble = true; while other's following
-         *  W3C standards, use e.stopPropagation().
-         */
-        stopBubble: function(e) {
-            if (e && e.stopPropagation) {
-                e.stopPropagation();
-            }
-            else {
-                window.event.cancelBubble = true;
-            }
-        },
-
-        /**
-         *  Prevent event trigger the default event handler
-         */
-        preventDefault: function(e) {
-            if (e && e.preventDefault) {
-                e.preventDefault();
-            }
-            else {
-                window.event.returnValue = false;
-            }
-        },
-
-
-
-        /**
-         * delegate event
+         * delegate event(only support single selector)
          *
          * receive all the bubble event in interface element,
          * use the event.target or event.srcElement
@@ -76,15 +25,69 @@
          * if current element in the list, trigger
          */
         delegate: function(interfaceEle, selector, type, fn) {
-            DJ.bind(interfaceEle, type, function(e) {
-                e = e || window.event;
-                var target = e.target || e.srcElement;
-                if (matchSelector(target, selector)) {
-                    fn && fn.call(target, e);
+            $.on(interfaceEle, type, function(e) {
+                if (matchSelector(e.target, selector)) {
+                    if(fn) {
+                        fn.call(e.target, e);
+                    }
                 }
             });
         }
-    });
+    };
+
+    // do browser feature detected only once
+    if (typeof window.addEventListener === 'function') {
+        event.on = function(obj, type, fn) {
+            var wrapFn = function(event) {
+                var e = extendEvent(event);
+                fn.call(obj, event);
+            };
+            fn._uuid = _uuid;
+            eventsMap[_uuid++] = wrapFn;
+            obj.addEventListener(type, wrapFn, false);
+        };
+
+        event.off = function(obj, type, fn) {
+            obj.removeEventListener(type, fn, false);
+            delete eventsMap[fn._uuid];
+        };
+    } else {
+        event.on = function(obj, type, fn) {
+            var wrapFn = function() {
+                var e = extendEvent(window.event);
+                fn.call(obj, e);
+            };
+            fn._uuid = _uuid;
+            eventsMap[_uuid++] = wrapFn;
+            obj.attachEvent('on' + type, wrapFn);
+        };
+
+        event.off = function(obj, type, fn) {
+            obj.detachEvent('on' + type, fn);
+        };
+    }
+
+    /**
+     * @method fire 触发事件，这里仅是 mouseEvent
+     * @param {Element} ele 触发事件的 dom 元素
+     * @param {Strintg} type 事件类型，如 `mouseover` 和 `click` 等
+     */
+    event.fire = function fireEvent(ele, type) {
+        var doc = document,
+            e;
+
+        // ie9 及其后支持 DOM3 的 createEvent 和 dispatchEvent 了
+        // http://msdn.microsoft.com/zh-cn/library/ff975304.aspx
+        // http://msdn.microsoft.com/zh-cn/library/ff975459.aspx
+        // https://developer.mozilla.org/en-US/docs/DOM/document.createEvent
+        if(typeof doc.createEvent === 'function') {
+            e = doc.createEvent('MouseEvents');
+            e.initMouseEvent(type, true, true, document.defaultView, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
+            ele.dispatchEvent(e);
+        } else {
+            ele.fireEvent('on' + type, doc.createEventObject());
+        }
+    };
 
     /**
      * only support #id, tagName, .className
@@ -104,4 +107,27 @@
         // if use tagName
         return ele.tagName.toLowerCase() === selector.toLowerCase();
     }
-})();
+
+    /**
+     * extend event object, such as stopPropagation, preventDefault etc.
+     */
+    function extendEvent(e) {
+        if (typeof window.addEventListener === 'function') {
+        } else {
+            e.stopPropagation = function() {
+                e.cancelBubble = true;
+            };
+
+            e.preventDefault = function() {
+                e.returnValue = false;
+            };
+        }
+        if (!e.target && e.srcElement) {
+            e.target = e.srcElement;
+        }
+        return e;
+    }
+
+    $.add(event);
+    event = null;
+})(DJ);

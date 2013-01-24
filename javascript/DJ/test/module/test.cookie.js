@@ -1,9 +1,9 @@
-describe('DJ.cookie', function() {
-    var has = DJ.cookie.has,
-        set = DJ.cookie.set,
-        get = DJ.cookie.get;
+describe('DJ.Cookie', function() {
+    var has = DJ.Cookie.has,
+        set = DJ.Cookie.set,
+        get = DJ.Cookie.get;
 
-    describe('DJ.cookie.has', function() {
+    describe('DJ.Cookie.has', function() {
         it('should return false when testing the non-exist cookie',
             function() {
             expect(has('non_exist_cookie')).to.equal(false);
@@ -17,7 +17,7 @@ describe('DJ.cookie', function() {
 
     });
 
-    describe('DJ.cookie.set & get', function() {
+    describe('DJ.Cookie.set & get', function() {
         it('testing the setting cookie value', function() {
             expect(get('exist_cookie')).to.equal('exist');
         });
@@ -49,7 +49,7 @@ describe('DJ.cookie', function() {
         });
     });
 
-    describe('DJ.cookie remove', function() {
+    describe('DJ.Cookie remove', function() {
         it('remove cookie set by test', function() {
             set('exist_cookie', null);
             set('non_assii_cookie', null);

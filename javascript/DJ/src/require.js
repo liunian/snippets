@@ -15,7 +15,9 @@ DJ.add('require', function(url, callback) {
             return false;
         }
         script.onload = script.onreadystatechange = null;
-        callback && callback();
+        if(callback) {
+            callback();
+        }
     };
 
     script.src = url;

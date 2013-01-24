@@ -9,10 +9,10 @@
 </head>
 <body>
     <div style="margin:60px auto 0;">
-        <p><a href="javascript:;" id="c1">A default popup box</a></p>	  
-        <p><a href="javascript:;" id="c2">A popup box with optional settings</a></p>	  
-        <p><a href="javascript:;" id="c3">A popup box with button callback</a></p>	
-        <div id="msg" style="margin-top:50px;"></div>		
+        <p><a href="javascript:;" id="c1">A default popup box</a></p>
+        <p><a href="javascript:;" id="c2">A popup box with optional settings</a></p>
+        <p><a href="javascript:;" id="c3">A popup box with button callback</a></p>
+        <div id="msg" style="margin-top:50px;"></div>
     </div>
     <script type="text/javascript" src="../../src/dj.js"></script>
     <script type="text/javascript" src="../../src/util.js"></script>
@@ -35,11 +35,11 @@
             p3;
 
 
-        DJ.bind(c1, 'click', function(){
+        DJ.on(c1, 'click', function(){
             p1 = new popBox();
         });
 
-        DJ.bind(c2, 'click', function(){
+        DJ.on(c2, 'click', function(){
             p2 = new popBox({
                 content: 'Auto close after 2 seconds,<br /> with no title or no button',
                 width: '250px',
@@ -48,7 +48,7 @@
             });
         });
 
-        DJ.bind(c3, 'click', function(){
+        DJ.on(c3, 'click', function(){
             p3 = new popBox({
                 title: 'With button callback',
                 content: 'call a function to do something after clicking a button',

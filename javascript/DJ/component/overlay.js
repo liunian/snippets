@@ -45,7 +45,7 @@ overlay.prototype = {
     bind: function() {
         var self = this;
         if (self.option.clickToHide) {
-            DJ.bind(self.content, 'click', function() {
+            DJ.on(self.content, 'click', function() {
                 self.hide();
             });
         }
