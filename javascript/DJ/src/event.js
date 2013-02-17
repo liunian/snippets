@@ -40,7 +40,7 @@
         event.on = function(obj, type, fn) {
             var wrapFn = function(event) {
                 var e = extendEvent(event);
-                fn.call(obj, event);
+                fn.call(obj, e);
             };
             fn._uuid = _uuid;
             eventsMap[_uuid++] = wrapFn;
@@ -70,7 +70,7 @@
     /**
      * @method fire 触发事件，这里仅是 mouseEvent
      * @param {Element} ele 触发事件的 dom 元素
-     * @param {Strintg} type 事件类型，如 `mouseover` 和 `click` 等
+     * @param {String} type 事件类型，如 `mouseover` 和 `click` 等
      */
     event.fire = function fireEvent(ele, type) {
         var doc = document,
