@@ -15,6 +15,7 @@ DJ.add({
     extend: function(target, source, override) {
         if (override === undefined) override = true;
         for (var item in source) {
+            if(!source.hasOwnProperty(item)) continue;
             if (override || !(item in target)) {
                 target[item] = source[item];
             }

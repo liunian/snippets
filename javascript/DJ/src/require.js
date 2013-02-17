@@ -1,9 +1,9 @@
 /**
- * Here just require a script and excute a callback if it exist
+ * Here just require a script and execute a callback if it exist
  *
  * Advanced usage may be required such as require an array urls, queue control
  *
- * These funcions can be found in LazyloadJs or LABjs
+ * These functions can be found in LazyloadJs or LABjs
  */
 DJ.add('require', function(url, callback) {
     var script = document.createElement('script');

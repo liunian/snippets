@@ -26,7 +26,9 @@ DJ.add = function() {
         Object.prototype.toString.call(args[0]) == '[object Object]') {
         var obj = args[0];
         for (var name in obj) {
-            DJ[name] = obj[name];
+            if(obj.hasOwnProperty(name)) {
+                DJ[name] = obj[name];
+            }
         }
     }
 };
