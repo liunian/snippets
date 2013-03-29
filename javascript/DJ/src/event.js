@@ -101,7 +101,7 @@
 
         // if use class
         if (selector.charAt(0) === '.') {
-            return ' ' + ele.className + ' '.indexOf(' ' + selector.slice(1) + ' ') != -1;
+            return (' ' + ele.className + ' ').indexOf(' ' + selector.slice(1) + ' ') != -1;
         }
 
         // if use tagName
