@@ -204,6 +204,11 @@ describe('DJ.event', function() {
             DJ.fire(w.childNodes[2], 'click');
             expect(res).to.equal('2');
 
+            // should not trigger when click interface element
+            res = '';
+            DJ.fire(w, 'click');
+            expect(res).to.equal('');
+
             DJ.off(w, 'click', f);
             w.parentNode.removeChild(w);
             w.innerHTML = '';
