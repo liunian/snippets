@@ -9,7 +9,8 @@ module.exports = function(grunt) {
         },
         mocha: {
             unit: {
-                src: ['javascript/DJ/test/index.html'],
+                // use server path to test ajax
+                src: ['http://localhost/snippets/javascript/DJ/test/index.html'],
                 options: {
                     run: true
                 }
