@@ -1,4 +1,4 @@
-# 跨域传输数据
+# 无刷新跨域传输数据
 
 如果是 get，那么使用 [jsonp](http://zh.wikipedia.org/wiki/JSONP) 形式；如果是 post，那么使用 [window.name](http://www.cnblogs.com/rainman/archive/2011/02/21/1960044.html) 形式。
 

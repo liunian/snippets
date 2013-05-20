@@ -1,5 +1,5 @@
 /**
- * 跨域传输数据
+ * 无刷新跨域传输数据
  *
  * 如果是 get，使用 jsonp
  * 如果是 post，使用 window.name
