@@ -1,7 +1,9 @@
 module.exports = function(grunt) {
     grunt.initConfig({
         lint: {
-            all: ['grunt.js', 'javascript/*.js', 'javascript/windowname/*.js', 'javascript/DJ/src/*.js', 'javascript/DJ/component/*.js', 'javascript/DJ/test/module/*.js']
+            all: ['grunt.js', 'javascript/*.js', 'javascript/DJ/src/*.js', 'javascript/DJ/component/*.js', 'javascript/DJ/test/module/*.js',
+                  'javascript/windowname/windowname.js'
+            ]
         },
         jshint: {
             options: {
