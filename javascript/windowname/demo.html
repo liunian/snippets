@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>A</title>
+</head>
+<body>
+
+    <textarea id="msg" cols="80" rows="10"></textarea>
+
+    <script type="text/javascript" src="windowname.js"></script>
+<script>
+    function $(id) {return document.getElementById(id);}
+    //
+    // Testing it out
+    //
+
+    $('msg').value = 'fetching data from another domain: ' + location.host.replace('localhost', '127.0.0.1');
+
+    transfer(
+        location.href.replace('demo.html', 'action.php').replace('localhost', '127.0.0.1'),
+        function(response) {
+            $('msg').value += '\npost\nString: ' + response;
+        },
+        {
+            'data': {k: 'happy'}
+        }
+    );
+
+    transfer(
+        location.href.replace('demo.html', 'action.php').replace('localhost', '127.0.0.1'),
+        function(response) {
+            $('msg').value += '\nget\nString: ' + response;
+        }
+    );
+
+</script>
+</body>
+</html>

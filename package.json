@@ -1,0 +1,12 @@
+{
+    "name": "snippets",
+    "version": "0.1.0",
+    "devDependencies": {
+        "grunt": "0.3.x",
+        "phantomjs": "*",
+        "mocha-phantomjs": "*",
+        "mocha": "*",
+        "chai": "*",
+        "grunt-mocha": "*"
+    }
+}
