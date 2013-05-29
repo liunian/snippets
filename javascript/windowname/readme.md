@@ -14,7 +14,7 @@
 
 - `callbackTag` 是指用 `jsonp` 时用什么参数来表明这是一个回调函数字段，默认是 `callback`。
 - `callbackName` 则是回调函数字段中的值部分，默认是 `'transfer_' + new Date().getTime()`。
-- 'data` 是一个简单的 JSON 对象，用来存放需要 post 的数据。
+- `data` 是一个简单的 JSON 对象，用来存放需要 post 的数据。
 - `localProxy` 是用来做 post 跨域处理的当前域名的代理页面，默认是 `/favicon.ico`。
 
 
