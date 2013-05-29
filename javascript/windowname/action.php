@@ -1,5 +1,4 @@
 <?php
-// seems that delay will make opera failed
 //sleep(5);
 
 if(isset($_POST['windowname'])) {
