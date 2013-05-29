@@ -130,7 +130,6 @@ function transfer(url, callback, options) {
 
     var onrequest = function() {
         try{
-            log('state: ' + state + '  href: ' + frame.contentWindow.location.href + ' isloacal: ' + isLocal());
             // opera 的 frame 请求加载机制似有所不同，跳过了 state 为 1 的部分，直接进入 state 为 2 的情况；
             // 导致 form 改变 iframe 文档的 location 还没生效，保持为 blank
             if(frame.contentWindow.location.href == 'about:blank') return;
