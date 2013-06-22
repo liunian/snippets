@@ -26,26 +26,25 @@
         file2 = $('file2');
 
 
-    $('msg').value = 'fetching data from another domain: ' + location.host.replace('localhost', '127.0.0.1');
+    var msg = $('msg');
+    msg.value = 'fetching data from another domain: ' + location.host.replace('localhost', '127.0.0.1');
 
-    var t = new Transfer(
-        location.href.replace('demo.html', 'action.php').replace('localhost', '127.0.0.1'),
-        function(response) {
-            $('msg').value += '\n\n' + response;
-        },
-        {
+    var url = location.href.replace('demo.html', 'action.php').replace('localhost', '127.0.0.1'),
+        datas = {
             'params': {
                 k: 'happy',
                 a: [1, 2, 3]
             },
             'files': [file1]    // set the file input
-        }
-    );
+        };
 
-    t.files.push(file2);    // add another file input
 
     $('post').onclick = function(){
-        var f = t.form;
+        var t = new Transfer(url, function(response) {
+            $('msg').value += '\n\n' + response;
+        }, datas);
+
+        t.files.push(file2);    // add another file input
         t.send();
     };
 </script>

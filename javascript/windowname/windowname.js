@@ -25,9 +25,12 @@
 function Transfer(url, callback, options) {
     this.url = url;
     this.callback = callback;
-    options.localProxy = options.localProxy || '/favicon.ico';
-    options.defaultName = 'cross.default.name';
-    this.options = options || {};
+
+    var op = {
+        localProxy: '/favicon.ico',
+        defaultName: 'cross.default.name'
+    };
+    this.options = this.extend(op, options);
 
     this.init();
 }
@@ -142,6 +145,14 @@ Transfer.prototype = {
                 self._files = [];
                 form.parentNode.removeChild(form);
             }
+            frame = null;
+            form = null;
+            for(var j in self) {
+                if(self.hasOwnProperty(j)) {
+                    self[j] = null;
+                    delete self[j];
+                }
+            }
         }
 
         function onrequest() {
@@ -217,6 +228,7 @@ Transfer.prototype = {
                 form.appendChild(fEle);
             }
         }
+        fEle = fpEle = fCloneEle = null;
 
         form.submit();
 
@@ -233,5 +245,46 @@ Transfer.prototype = {
             input.value = value;
             return input;
         }
+    },
+    isObject: function(obj) {
+        return Object.prototype.toString.call(obj) == '[object Object]';
+    },
+    isArray: function(obj) {
+        return Object.prototype.toString.call(obj)  == '[object Array]';
+    },
+    extend: function(target, source) {
+        // deep extend
+        var i, v, t;
+        for(i in source) {
+            if(source.hasOwnProperty(i)) {
+                v = source[i];
+                if(this.isArray(v)) {
+                    t = this.copyArray(v);
+                } else if(this.isObject(v)) {
+                    t = this.extend({}, v);
+                } else {
+                    t = v;
+                }
+                target[i] = t;
+            }
+        }
+        return target;
+    },
+    copyArray: function(list) {
+        var ret = [];
+        var i = 0, l=list.length, tmp;
+
+        for(; i < l; i++) {
+            tmp = list[i];
+            if(this.isArray(tmp)) {
+                ret.push(this.copyArray(tmp));
+            } else if(this.isObject(tmp)) {
+                ret.push(this.extend({}, tmp));
+            } else {
+                ret.push(tmp);
+            }
+        }
+
+        return ret;
     }
 };
