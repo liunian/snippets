@@ -1,6 +1,6 @@
 # 无刷新跨域传输数据
 
-`window.name` 网上的文章有很多，上面给出的链接是一篇简短的实现说明。基本原理是 `window.name` 可以在 `location` 改变后保持不变。
+`window.name` 网上的文章有很多，(这里是一篇简短的实现说明)[http://www.cnblogs.com/rainman/archive/2011/02/21/1960044.html] 。基本原理是 `window.name` 可以在 `location` 改变后保持不变。
 
 ## API
 
