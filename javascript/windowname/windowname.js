@@ -1,193 +1,237 @@
 /**
- * 无刷新跨域传输数据
- *
- * 如果是 get，使用 jsonp
- * 如果是 post，使用 window.name
+ * 使用 window.name 来无刷新跨域 post 数据，包括 file input
  *
  * @param {String} url the url of the page which request
  * @param {Function} callback the function which handle the response, the response is window.name; if fail, set it to {error: 1}
  * @param {Object} [options] optional data, including following items
- *      [get]
- *      callbackTag: the callbackTag that let server known it's value is the callback name, default: 'callback'
- *      callbackName: the callback name, default: 'transfer_' + new Date().getTime()
- *
- *      [post]
- *      data: a key-value data to be posted
+ *      params: a key-value data to be send
+ *      files: an array contains with file input element to be send
  *      localProxy: the local proxy file, if not set, use '/favicon.ico'
  *
  * @example
  *
- *  // this will be jsonp
- *  transfer('http://127.0.0.1/action.php', function(data) {
- *      console.log(data);
- *  });
- *
  *  // this will use window.name
- *  transfer('http://127.0.0.1/action.php', function(data) {
+ *  var t = new Transfer('http://127.0.0.1/action.php', function(data) {
  *          console.log(data);
  *      },
  *      {
- *          data: {'key': 'happy'}
+ *          params: {'key': 'happy'}
  *      }
  *  );
+ *  t.send();
  */
-function transfer(url, callback, options) {
-    options = options || {};
-    var data = options.data;
-    var uuid = 'transfer_' + new Date().getTime();
 
 
-    // No post data, use jsonp
-    if(!data) {
-        var callbackTag = options.callbackTag || 'callback';
-        var callbackName = options.callbackName || uuid;
-        window[callbackName] = callback;
-        url += (url.indexOf('?') > 0 ? '&' : '?') + callbackTag + '=window.' + callbackName;
+function Transfer(url, callback, options) {
+    this.url = url;
+    this.callback = callback;
+    options.localProxy = options.localProxy || '/favicon.ico';
+    options.defaultName = 'cross.default.name';
+    this.options = options || {};
 
-        var scr = document.createElement('script');
-        scr.onload = function() {
-            // when finish, clear and remove the script
-            scr.onload = null;
-            setTimeout(function(){
-                scr.parentNode.removeChild(scr);
-            }, 1);
-        };
-        scr.src = url;
-        document.body.appendChild(scr);
+    this.init();
+}
 
-        return;
-    }
 
-    // ================ use window.name for post method
-
-    function createNamedElement (type, name) {
-        var element = null;
-        // Try the IE way; this fails on standards-compliant browsers
-        try {
-            element = document.createElement('<'+type+' name="'+name+'">');
-        } catch (e) {
+Transfer.prototype = {
+    init: function() {
+        // ============ helper functions
+        function createNamedElement (type, name) {
+            var element = null;
+            // Try the IE way; this fails on standards-compliant browsers
+            try {
+                element = document.createElement('<'+type+' name="'+name+'">');
+            } catch (e) {
+            }
+            if (!element || element.nodeName != type.toUpperCase()) {
+                // Non-IE browser; use canonical method to create named element
+                element = document.createElement(type);
+                element.name = name;
+            }
+            return element;
         }
-        if (!element || element.nodeName != type.toUpperCase()) {
-            // Non-IE browser; use canonical method to create named element
-            element = document.createElement(type);
-            element.name = name;
+        // ============
+
+        // add windowname mark
+        this.params = this.options.params || {};
+        this.params.windowname = 1;
+        delete this.options.params;
+
+        this.files = this.options.files || [];
+        delete this.options.files;
+
+        // create form and iframe and add to document
+        var uuid = 'transfer_' + new Date().getTime();
+
+        var frame = createNamedElement('iframe', uuid);
+        // Give the frame a name to hide it from frames.length
+        frame.name = uuid;
+        // Hide frame. Avoid `display:none` to work with old Safari.
+        frame.style.display = 'none';
+        frame.style.position = 'fixed';
+        frame.style.top = frame.style.left = '-10000px';
+        document.body.appendChild(frame);
+
+        // use form to post data and put response into iframe
+        var form = document.createElement('form');
+        form.style.display = 'none';
+        // The form posts to the URL
+        form.target = uuid;
+        form.action = this.url;
+        form.method = 'post';
+        form.enctype = 'application/x-www-form-urlencoded';
+        document.body.appendChild(form);
+
+
+        this.frame = frame;
+        this.form = form;
+
+        // state:
+        // 1: init
+        // 2: set to request location
+        // 3: response from request location
+        this.state = 1;
+
+        this._setRequest();
+    },
+    _setRequest: function() {
+        var self = this,
+            frame = self.frame,
+            form = self.form,
+            options = self.options,
+            localProxy = options.localProxy,
+            done = false;
+
+        if (frame.onreadystatechange !== undefined) {
+            frame.onreadystatechange = onrequest;
+        } else {
+            frame.onload = onrequest;
         }
-        return element;
-    }
 
-    var frame = createNamedElement('iframe', uuid);
-    var defaultName = 'cross.default.name';
-    var done = false;
-
-    var localProxy = options.localProxy || '/favicon.ico';
-
-    // for post method
-    var form, input, key;
-
-    // when success get response by window.name, call callback
-    function complete() {
-        var data = frame.contentWindow.name;
-        // if fail to fetch the name, make it error
-        if(data == defaultName) data = '{"error": 1}';
-        callback(data);
-    }
-
-    function isLocal() {
-        var c = false;
-        try {
-            c = frame.contentWindow.location.host == location.host;
-            // try to get location - if we can we're still local and have to wait some more...
-        } catch (er) {
-            // if we're at foreign location we're sure we can proceed
+        // when success get response by window.name, call callback
+        function complete() {
+            var data = frame.contentWindow.name;
+            // if fail to fetch the name, make it error
+            if(data == options.defaultName) data = '{"error": 1}';
+            self.callback(data);
         }
-        return c;
-    }
 
-    function clean() {
-        frame.onreadystatechange = frame.onload = null;
-        frame.parentNode.removeChild(frame);
-        if(form) {
-            form.parentNode.removeChild(form);
+        function isLocal() {
+            var c = false;
+            try {
+                c = frame.contentWindow.location.host == location.host;
+                // try to get location - if we can we're still local and have to wait some more...
+            } catch (er) {
+                // if we're at foreign location we're sure we can proceed
+            }
+            return c;
         }
-    }
 
-    // Give the frame a name to hide it from frames.length
-    frame.name = uuid;
-
-    // Hide frame. Avoid `display:none` to work with old Safari.
-    frame.style.display = 'none';
-    frame.style.position = 'fixed';
-    frame.style.top = frame.style.left = '-10000px';
-
-    // state:
-    // 1: init
-    // 2: set to request location
-    // 3: response from request location
-    var state = 1;
-
-    // add mark tag
-    data.windowname = 1;
-
-    var onrequest = function() {
-        try{
-            // opera 的 frame 请求加载机制似有所不同，跳过了 state 为 1 的部分，直接进入 state 为 2 的情况；
-            // 导致 form 改变 iframe 文档的 location 还没生效，保持为 blank
-            if(frame.contentWindow.location.href == 'about:blank') return;
-        } catch(e) {}
-
-        if(state == 3) {
-            if(!isLocal()) {
-                // need to set back to local location in order to have grant to access window.name
-                frame.contentWindow.location = localProxy;
-            } else {
-                // ie
-                if(frame.readyState && frame.readyState.toLowerCase() != 'complete') return;
-
-                complete();
-                done = true;
-                clean();
+        function clean() {
+            frame.onreadystatechange = frame.onload = null;
+            frame.parentNode.removeChild(frame);
+            if(form) {
+                var fileArr;
+                for(var i=0,l=self._files.length; i<l; i++) {
+                    fileArr = self._files[i];
+                    // put file input back to origin place and remove the cloneNode
+                    fileArr[2].insertBefore(fileArr[0], fileArr[1]);
+                    fileArr[2].removeChild(fileArr[1]);
+                }
+                fileArr = null;
+                self._files = [];
+                form.parentNode.removeChild(form);
             }
         }
 
-        if(state == 2) {
-            frame.contentWindow.location = localProxy;
-            state = 3;
+        function onrequest() {
+            try{
+                // opera 的 frame 请求加载机制似有所不同，跳过了 state 为 1 的部分，直接进入 state 为 2 的情况；
+                // 导致 form 改变 iframe 文档的 location 还没生效，保持为 blank
+                if(frame.contentWindow.location.href == 'about:blank') return;
+            } catch(e) {}
+
+            if(self.state == 3) {
+                if(!isLocal()) {
+                    // need to set back to local location in order to have grant to access window.name
+                    frame.contentWindow.location = localProxy;
+                } else {
+                    // ie
+                    if(frame.readyState && frame.readyState.toLowerCase() != 'complete') return;
+
+                    complete();
+                    done = true;
+                    clean();
+                }
+            }
+
+            if(self.state == 2) {
+                frame.contentWindow.location = localProxy;
+                self.state = 3;
+            }
         }
-    };
+    },
+    send: function() {
+        var params = this.params,
+            files = this.files,
+            form = this.form,
+            key,
+            v;
 
-    if (frame.onreadystatechange !== undefined) {
-        frame.onreadystatechange = onrequest;
-    } else {
-        frame.onload = onrequest;
-    }
+        var _toString = Object.prototype.toString;
 
-    document.body.appendChild(frame);
+        // Build form fields from data
+        for (key in params) {
+            if (params.hasOwnProperty(key)) {
+                v = params[key];
+                if(_toString.call(v) === '[object Array]') {
+                    var _key = key + '[]';
+                    for(var i=0, l=v.length; i<l; i++) {
+                        form.appendChild(genInput(_key, v[i]));
+                    }
+                } else {
+                    form.appendChild(genInput(key, v));
+                }
 
-    // use form to post data and put response into iframe
-    form = document.createElement('form');
-    form.style.display = 'none';
-    // The form posts to the URL
-    form.target = uuid;
-    form.action = url;
-    form.method = 'post';
-    form.enctype = 'application/x-www-form-urlencoded';
+            }
+        }
 
-    // Build form fields from data
-    for (key in data) {
-        if (data.hasOwnProperty(key)) {
-            input = document.createElement('input');
-            input.name = key;
-            input.value = data[key];
-            form.appendChild(input);
+        // if exist input[type="file"] elements,
+        // because can not copy the file input's value, create a clone,
+        // insert the clone before the file input, and move the origin file input to the submit form
+        // in order to restore the file inputs,
+        // save the relation with an array [fileEle, clone, parentNode]
+        var fEle, fpEle, fCloneEle;
+        var _files = this._files = [];
+        var fl = files.length;
+        if(fl > 0) {
+            form.enctype = 'multipart/form-data';
+
+            for(var fi = 0; fi < fl; fi++) {
+                fEle = files[fi];
+                fpEle = fEle.parentNode;
+                fCloneEle = fEle.cloneNode();
+                fCloneEle.disabled = 'disabled';
+                _files.push([fEle, fCloneEle, fpEle]);
+                fpEle.insertBefore(fCloneEle, fEle);
+                form.appendChild(fEle);
+            }
+        }
+
+        form.submit();
+
+        this.state = 2;
+
+        if(this.frame.contentWindow) {
+            this.frame.contentWindow.name = this.options.defaultName;
+        }
+
+        // generate input element with given name and value
+        function genInput(name, value) {
+            var input = document.createElement('input');
+            input.name = name;
+            input.value = value;
+            return input;
         }
     }
-
-    document.body.appendChild(form);
-    form.submit();
-
-    state = 2;
-
-    if(frame.contentWindow) {
-        frame.contentWindow.name = 'cross.default.name';
-    }
-}
+};

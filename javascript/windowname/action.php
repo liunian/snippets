@@ -1,17 +1,20 @@
 <?php
 //sleep(5);
 
-if(isset($_POST['windowname'])) {
+$data = array('post' => $_POST, 'files' => $_FILES);
+
+$ret = addslashes(json_encode($data));
+
+if(isset($_POST['windowname']) && $_POST['windowname']) {
 ?>
 <script type="text/javascript">
 // alert(window.name);
-window.name = "{key: 'happy', value: 'happy'}";
+window.name = "<?php echo $ret; ?>";
 // alert(window.name);
 </script>
 
 <?php
 } else {
-    $callbackName = isset($_GET['callback']) ? $_GET['callback'] : 'callback';
-    echo $callbackName . '("{key: \"happy\", value: \"happy\"}")';
+    echo json_encode($ret);
 }
 ?>
