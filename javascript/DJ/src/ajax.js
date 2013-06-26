@@ -54,8 +54,8 @@
         var op = adjustOptions(options);
 
         // if set data for get method, append it to the url
-        if(method == 'get') {
-            op.url = url + (url.indexOf('?') == -1 ? '&' : '?') + op.data;
+        if(op.data && method == 'get') {
+            url = url + (url.indexOf('?') === -1 ? '?' : '&') + op.data;
             op.data = null;
         }
 

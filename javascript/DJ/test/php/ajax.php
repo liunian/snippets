@@ -8,6 +8,6 @@
     } else if(isset($_POST['key']) && isset($_POST['value'])){
         echo $_POST['key'] . '=' . $_POST['value'];
     } else {
-        echo "get ajax.php";
+        echo "get/post ajax.php";
     }
 ?>

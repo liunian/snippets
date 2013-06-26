@@ -2,7 +2,7 @@ describe('DJ.Ajax', function(){
     describe('DJ.Ajax.ajax', function(){
         it('DJ.Ajax.ajax success', function(done){
             DJ.Ajax.ajax('get', 'php/ajax.php', function(response, xhr, options){
-                expect(response).to.equal('get ajax.php');
+                expect(response).to.equal('get/post ajax.php');
                 expect(xhr.status).to.equal(200);
                 done();
             });
@@ -22,6 +22,27 @@ describe('DJ.Ajax', function(){
                     expect(t).to.equal(2);
                     done();
                 }
+            });
+        });
+
+        // #2
+        it('DJ.Ajax.ajax get with option data', function(done){
+            DJ.Ajax.ajax('get', 'php/ajax.php', {
+                data: {
+                    t: 2
+                },
+                success: function(response) {
+                    expect(response).equal('gt=2');
+                    done();
+                }
+            });
+        });
+
+        // post nothing
+        it('DJ.Ajax.ajax post nothing', function(done){
+            DJ.Ajax.ajax('post', 'php/ajax.php', function(ret){
+                expect(ret).equal('get/post ajax.php');
+                done();
             });
         });
     });
