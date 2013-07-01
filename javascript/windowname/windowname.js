@@ -1,12 +1,12 @@
 /**
  * 使用 window.name 来无刷新跨域 post 数据，包括 file input
  *
- * @param {String} url the url of the page which request
- * @param {Function} callback the function which handle the response, the response is window.name; if fail, set it to {error: 1}
+ * @param {String} url the url of the page which request.
+ * @param {Function} callback the function which handle the response, the response is window.name; if fail, set it to {error: 1}.
  * @param {Object} [options] optional data, including following items
  *      params: a key-value data to be send
  *      files: an array contains with file input element to be send
- *      localProxy: the local proxy file, if not set, use '/favicon.ico'
+ *      localProxy: the local proxy file, if not set, use '/favicon.ico'.
  *
  * @example
  *
@@ -39,11 +39,11 @@ function Transfer(url, callback, options) {
 Transfer.prototype = {
     init: function() {
         // ============ helper functions
-        function createNamedElement (type, name) {
+        function createNamedElement(type, name) {
             var element = null;
             // Try the IE way; this fails on standards-compliant browsers
             try {
-                element = document.createElement('<'+type+' name="'+name+'">');
+                element = document.createElement('<' + type + ' name="' + name + '">');
             } catch (e) {
             }
             if (!element || element.nodeName != type.toUpperCase()) {
@@ -115,7 +115,7 @@ Transfer.prototype = {
         function complete() {
             var data = frame.contentWindow.name;
             // if fail to fetch the name, make it error
-            if(data == options.defaultName) data = '{"error": 1}';
+            if (data == options.defaultName) data = '{"error": 1}';
             self.callback(data);
         }
 
@@ -133,9 +133,9 @@ Transfer.prototype = {
         function clean() {
             frame.onreadystatechange = frame.onload = null;
             frame.parentNode.removeChild(frame);
-            if(form) {
+            if (form) {
                 var fileArr;
-                for(var i=0,l=self._files.length; i<l; i++) {
+                for (var i = 0, l = self._files.length; i < l; i++) {
                     fileArr = self._files[i];
                     // put file input back to origin place and remove the cloneNode
                     fileArr[2].insertBefore(fileArr[0], fileArr[1]);
@@ -147,8 +147,8 @@ Transfer.prototype = {
             }
             frame = null;
             form = null;
-            for(var j in self) {
-                if(self.hasOwnProperty(j)) {
+            for (var j in self) {
+                if (self.hasOwnProperty(j)) {
                     self[j] = null;
                     delete self[j];
                 }
@@ -156,19 +156,19 @@ Transfer.prototype = {
         }
 
         function onrequest() {
-            try{
+            try {
                 // opera 的 frame 请求加载机制似有所不同，跳过了 state 为 1 的部分，直接进入 state 为 2 的情况；
                 // 导致 form 改变 iframe 文档的 location 还没生效，保持为 blank
-                if(frame.contentWindow.location.href == 'about:blank') return;
-            } catch(e) {}
+                if (frame.contentWindow.location.href == 'about:blank') return;
+            } catch (e) {}
 
-            if(self.state == 3) {
-                if(!isLocal()) {
+            if (self.state == 3) {
+                if (!isLocal()) {
                     // need to set back to local location in order to have grant to access window.name
                     frame.contentWindow.location = localProxy;
                 } else {
                     // ie
-                    if(frame.readyState && frame.readyState.toLowerCase() != 'complete') return;
+                    if (frame.readyState && frame.readyState.toLowerCase() != 'complete') return;
 
                     complete();
                     done = true;
@@ -176,7 +176,7 @@ Transfer.prototype = {
                 }
             }
 
-            if(self.state == 2) {
+            if (self.state == 2) {
                 frame.contentWindow.location = localProxy;
                 self.state = 3;
             }
@@ -195,9 +195,9 @@ Transfer.prototype = {
         for (key in params) {
             if (params.hasOwnProperty(key)) {
                 v = params[key];
-                if(_toString.call(v) === '[object Array]') {
+                if (_toString.call(v) === '[object Array]') {
                     var _key = key + '[]';
-                    for(var i=0, l=v.length; i<l; i++) {
+                    for (var i = 0, l = v.length; i < l; i++) {
                         form.appendChild(genInput(_key, v[i]));
                     }
                 } else {
@@ -215,10 +215,10 @@ Transfer.prototype = {
         var fEle, fpEle, fCloneEle;
         var _files = this._files = [];
         var fl = files.length;
-        if(fl > 0) {
+        if (fl > 0) {
             form.enctype = 'multipart/form-data';
 
-            for(var fi = 0; fi < fl; fi++) {
+            for (var fi = 0; fi < fl; fi++) {
                 fEle = files[fi];
                 fpEle = fEle.parentNode;
                 fCloneEle = fEle.cloneNode();
@@ -234,7 +234,7 @@ Transfer.prototype = {
 
         this.state = 2;
 
-        if(this.frame.contentWindow) {
+        if (this.frame.contentWindow) {
             this.frame.contentWindow.name = this.options.defaultName;
         }
 
@@ -247,42 +247,40 @@ Transfer.prototype = {
         }
     },
     isObject: function(obj) {
-        return Object.prototype.toString.call(obj) == '[object Object]';
+        return Object.prototype.toString.call(obj) == '[object Object]' && !obj.nodeType;
     },
     isArray: function(obj) {
-        return Object.prototype.toString.call(obj)  == '[object Array]';
+        return Object.prototype.toString.call(obj) == '[object Array]';
     },
     extend: function(target, source) {
         // deep extend
-        var i, v, t;
-        for(i in source) {
-            if(source.hasOwnProperty(i)) {
-                v = source[i];
-                if(this.isArray(v)) {
-                    t = this.copyArray(v);
-                } else if(this.isObject(v)) {
-                    t = this.extend({}, v);
-                } else {
-                    t = v;
-                }
-                target[i] = t;
+        var clone = this.clone(source);
+        var i;
+        for (i in clone) {
+            if (clone.hasOwnProperty(i)) {
+                target[i] = clone[i];
             }
         }
         return target;
     },
-    copyArray: function(list) {
-        var ret = [];
-        var i = 0, l=list.length, tmp;
+    clone: function(o) {
+        var self = this,
+            ret;
 
-        for(; i < l; i++) {
-            tmp = list[i];
-            if(this.isArray(tmp)) {
-                ret.push(this.copyArray(tmp));
-            } else if(this.isObject(tmp)) {
-                ret.push(this.extend({}, tmp));
-            } else {
-                ret.push(tmp);
+        if (self.isArray(o)) {
+            ret = [];
+            for (var i = 0, l = o.length; i < l; i++) {
+                ret.push(self.clone(o[i]));
             }
+        } else if (self.isObject(o)) {
+            ret = {};
+            for (var k in o) {
+                if (o.hasOwnProperty(k)) {
+                    ret[k] = self.clone(o[k]);
+                }
+            }
+        } else {
+            ret = o;
         }
 
         return ret;
