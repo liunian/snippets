@@ -82,7 +82,8 @@ Transfer.prototype = {
         form.target = uuid;
         form.action = this.url;
         form.method = 'post';
-        form.enctype = 'application/x-www-form-urlencoded';
+        // old ie needs encoding rather than enctype
+        form.encoding = form.enctype = 'application/x-www-form-urlencoded';
         document.body.appendChild(form);
 
 
@@ -216,7 +217,7 @@ Transfer.prototype = {
         var _files = this._files = [];
         var fl = files.length;
         if (fl > 0) {
-            form.enctype = 'multipart/form-data';
+            form.encoding = form.enctype = 'multipart/form-data';
 
             for (var fi = 0; fi < fl; fi++) {
                 fEle = files[fi];
