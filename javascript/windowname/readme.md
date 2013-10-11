@@ -57,3 +57,12 @@ var t = new Transfer('http://127.0.0.1/action.php', function(data) {
     }
 );
 ```
+
+上面会发出一个 `post` 请求，自动添加 `windownname=1` 这个参数，然后接口在收到请求并确定采用 windowname 跨域时，返回的数据应像下面这样。
+
+```html
+<script>
+window.name = "the response";
+</script>
+```
+`window.name` 被赋予的值是一个字符串，字符串的表现形式随意，比如 JSON 形式：`window.name="{\"status\": 1}";`，例子可参考 `demo.html`。
