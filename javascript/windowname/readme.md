@@ -65,4 +65,4 @@ var t = new Transfer('http://127.0.0.1/action.php', function(data) {
 window.name = "the response";
 </script>
 ```
-`window.name` 被赋予的值是一个字符串，字符串的表现形式随意，比如 JSON 形式：`window.name="{\"status\": 1}";`，例子可参考 `demo.html`。
+`window.name` 被赋予的值是一个字符串，字符串的表现形式随意，比如 JSON 形式：`window.name="{\"status\": 1}";`，例子可参考 [demo.html](demo.html)。
