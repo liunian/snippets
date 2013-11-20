@@ -65,6 +65,7 @@ Transfer.prototype = {
 
         // create form and iframe and add to document
         var uuid = 'transfer_' + new Date().getTime();
+        this.options.defaultName = uuid;
 
         var frame = createNamedElement('iframe', uuid);
         // Give the frame a name to hide it from frames.length
@@ -234,10 +235,6 @@ Transfer.prototype = {
         form.submit();
 
         this.state = 2;
-
-        if (this.frame.contentWindow) {
-            this.frame.contentWindow.name = this.options.defaultName;
-        }
 
         // generate input element with given name and value
         function genInput(name, value) {
