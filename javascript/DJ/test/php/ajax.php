@@ -1,4 +1,5 @@
 <?php
+    # do not need anymore
     if(isset($_GET['sleep'])) {
         sleep($_GET['sleep']);
     }

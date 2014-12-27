@@ -7,12 +7,11 @@ module.exports = function(grunt) {
         },
         mocha: {
             unit: {
-                // use server path to test ajax
-                // make the path right
                 options: {
-                    urls: ['http://localhost/github/snippets/javascript/DJ/test/index.html'],
+                    urls: ['javascript/DJ/test/index.html'],
                     run: true,
-                    log: true
+                    log: true,
+                    reporter: 'Nyan'
                 }
             }
         }
@@ -21,6 +20,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-mocha');
 
-    grunt.registerTask('default', ['jshint', 'mocha']);
-    grunt.registerTask('pre-commit', ['jshint', 'mocha']);
+    grunt.registerTask('test', ['mocha']);
+    grunt.registerTask('pre-commit', ['jshint', 'test']);
+    grunt.registerTask('default', ['pre-commit']);
 };
